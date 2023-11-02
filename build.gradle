@@ -4,7 +4,7 @@ plugins {
 }
 
 // Versioning
-def versionNumber = '0.1'
+def versionNumber = '0.0.1'
 def versionType = 'ALPHA' // RELEASE | BETA | ALPHA
 def versionMarker = versionType.charAt(0)
 
@@ -14,6 +14,12 @@ version = versionNumber+versionMarker
 repositories {
     mavenCentral()
     jcenter()
+    maven {
+        url 'https://jitpack.io'
+    }
+    maven {
+        url 'https://m2.dv8tion.net/releases'
+    }
     flatDir {
         dirs 'lib'
     }
@@ -31,9 +37,9 @@ dependencies {
 
 shadowJar {
     manifest {
-        attributes "Main-Class" : "it.italiandudes.youtubebot.YoutubeBot"
-        attributes "Title" : "YoutubeBot"
-        attributes "Vendor" : "ItalianDudes"
+        attributes "Main-Class" : "it.italiandudes.bot6329.Bot6329"
+        attributes "Title" : "Bot6329"
+        attributes "Vendor" : "Hacker6329"
         attributes "Version" : archiveVersion.get()
         attributes "Version-Number" : archiveVersion.get()
         attributes "Version-Type" : versionType
@@ -49,7 +55,7 @@ tasks.register('buildJar') {
     description = "Build and assemble the YoutubeBot jar"
 }
 
-tasks.register('runClient', Exec) {
+tasks.register('runBot', Exec) {
     dependsOn shadowJar
     group = "Execution"
     description = "Buind, assemble and run YoutubeBot"
