@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+@SuppressWarnings("unused")
 public final class TrackScheduler extends AudioEventAdapter {
 
     // Attributes
