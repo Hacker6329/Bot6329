@@ -33,6 +33,7 @@ dependencies {
     implementation 'org.json:json:20230618'
     implementation 'club.minnced:java-discord-rpc:2.0.1'
     implementation 'net.dv8tion:JDA:5.0.0-beta.17'
+    implementation 'com.github.walkyst:lavaplayer-fork:1.4.3'
 }
 
 shadowJar {

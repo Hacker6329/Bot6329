@@ -1,10 +1,10 @@
 package it.italiandudes.bot6329;
 
+import it.italiandudes.bot6329.util.CommandManager;
 import it.italiandudes.idl.common.Logger;
 import it.italiandudes.bot6329.util.Defs;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Activity;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import java.util.Arrays;
 public final class Bot6329 {
 
     // Main Method
-    public static void main(String[] args) throws InterruptedException, IOException {
+    public static void main(String[] args) throws InterruptedException {
 
         // Initializing the logger
         try {
@@ -25,9 +25,14 @@ public final class Bot6329 {
         // Configure the shutdown hooks
         Runtime.getRuntime().addShutdownHook(new Thread(Logger::close));
 
+        // Build & Configure the Bot Builder
         JDABuilder jdaBuilder = JDABuilder.create(Defs.TOKEN, Arrays.asList(Defs.GATEWAY_INTENTS));
+        jdaBuilder.enableCache(Arrays.asList(Defs.CACHE_FLAGS));
+
 
         JDA jda = jdaBuilder.build().awaitReady();
+        CommandManager.registerCommands(jda);
+
     }
 
 }
