@@ -7,10 +7,6 @@ public final class Defs {
 
     // Gateway Intents
     public static final GatewayIntent[] GATEWAY_INTENTS = {
-            GatewayIntent.MESSAGE_CONTENT,
-            GatewayIntent.DIRECT_MESSAGES,
-            GatewayIntent.GUILD_MESSAGES,
-            GatewayIntent.GUILD_MEMBERS,
             GatewayIntent.GUILD_VOICE_STATES
     };
 
