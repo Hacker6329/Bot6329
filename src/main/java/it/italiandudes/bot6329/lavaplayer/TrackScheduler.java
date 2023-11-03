@@ -44,6 +44,7 @@ public final class TrackScheduler extends AudioEventAdapter {
         this.isPaused = isPaused;
         audioPlayer.setPaused(isPaused);
     }
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isPlayingTrack() {
         return audioPlayer.getPlayingTrack() != null;
     }
