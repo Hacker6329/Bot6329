@@ -20,7 +20,8 @@ public final class CommandManager {
                 new StopCommand(),
                 new LoopCommand(),
                 new PauseCommand(),
-                new ResumeCommand()
+                new ResumeCommand(),
+                new SkipCommand()
         );
         CommandListUpdateAction commandUpdate = jda.updateCommands();
         commandUpdate.addCommands(Commands.slash(PlayCommand.NAME, PlayCommand.DESCRIPTION).addOption(OptionType.STRING, "track", "Name of the song or it's link.", true));
@@ -28,6 +29,7 @@ public final class CommandManager {
         commandUpdate.addCommands(Commands.slash(LoopCommand.NAME, LoopCommand.DESCRIPTION));
         commandUpdate.addCommands(Commands.slash(PauseCommand.NAME, PauseCommand.DESCRIPTION));
         commandUpdate.addCommands(Commands.slash(ResumeCommand.NAME, ResumeCommand.DESCRIPTION));
+        commandUpdate.addCommands(Commands.slash(SkipCommand.NAME, SkipCommand.DESCRIPTION));
         commandUpdate.queue();
         commandsRegistered = true;
     }
