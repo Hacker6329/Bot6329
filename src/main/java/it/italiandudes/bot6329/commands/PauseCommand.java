@@ -2,6 +2,7 @@ package it.italiandudes.bot6329.commands;
 
 import it.italiandudes.bot6329.lavaplayer.PlayerManager;
 import it.italiandudes.bot6329.lavaplayer.TrackScheduler;
+import it.italiandudes.bot6329.util.UserBlacklist;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
@@ -21,6 +22,10 @@ public final class PauseCommand extends ListenerAdapter {
         if (!event.getName().equals(NAME)) return;
         Member member = event.getMember();
         if (member == null) return;
+        if (UserBlacklist.isUserBlacklisted(member.getUser().getId())) {
+            event.reply("TITAN: SUCK IT").setEphemeral(true).queue();
+            return;
+        }
         GuildVoiceState memberVoiceState = member.getVoiceState();
 
         if (memberVoiceState == null || !memberVoiceState.inAudioChannel() || memberVoiceState.getChannel() == null) {
