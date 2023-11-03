@@ -4,7 +4,6 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrackState;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.BlockingQueue;
@@ -17,12 +16,14 @@ public final class TrackScheduler extends AudioEventAdapter {
     @NotNull private final AudioPlayer audioPlayer;
     @NotNull private final BlockingQueue<AudioTrack> queue;
     private boolean loopMode;
+    private boolean isPaused;
 
     // Constructors
     public TrackScheduler(@NotNull final AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
         this.queue = new LinkedBlockingQueue<>();
         this.loopMode = false;
+        this.isPaused = false;
     }
 
     // Methods
@@ -35,6 +36,17 @@ public final class TrackScheduler extends AudioEventAdapter {
     public boolean isLoopMode() {
         return loopMode;
     }
+    public boolean isPaused() {
+        return isPaused;
+    }
+    public void setPaused(boolean isPaused) {
+        if (isPaused == this.isPaused) return;
+        this.isPaused = isPaused;
+        audioPlayer.setPaused(isPaused);
+    }
+    public boolean isPlayingTrack() {
+        return audioPlayer.getPlayingTrack() != null;
+    }
     public void setLoopMode(boolean loopMode) {
         this.loopMode = loopMode;
     }
@@ -42,6 +54,7 @@ public final class TrackScheduler extends AudioEventAdapter {
         audioPlayer.stopTrack();
         queue.clear();
         setLoopMode(false);
+        setPaused(false);
     }
     public int getQueueLength() {
         return queue.size();

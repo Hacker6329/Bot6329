@@ -14,6 +14,7 @@ public class StopCommand extends ListenerAdapter {
     public static final String NAME = "stop";
     public static final String DESCRIPTION = "Stop the playing track and make the bot leave the channel";
 
+    // Command Body
     @Override
     public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
         if (!event.getName().equals(NAME)) return;
@@ -36,10 +37,10 @@ public class StopCommand extends ListenerAdapter {
         GuildVoiceState selfVoiceState = self.getVoiceState();
 
         if (selfVoiceState == null || !selfVoiceState.inAudioChannel() || selfVoiceState.getChannel() == null) {
-            event.reply("I'm not in the audio channel!").queue();
+            event.reply("I'm not in the audio channel!").setEphemeral(true).queue();
             return;
         } else if (selfVoiceState.getChannel() != memberVoiceState.getChannel()) {
-            event.reply("You need to be in the same channel of the bot to use this command!").queue();
+            event.reply("You need to be in the same channel of the bot to use this command!").setEphemeral(true).queue();
             return;
         }
 
