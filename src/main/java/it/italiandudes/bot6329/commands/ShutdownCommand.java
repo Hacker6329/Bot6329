@@ -28,7 +28,10 @@ public final class ShutdownCommand extends ListenerAdapter {
             event.reply("Error: Only the Master can run this command.").setEphemeral(true).queue();
             return;
         }
-        event.reply("Remote Shutdown Procedure Initiated!").setEphemeral(true).queue();
-        Bot6329.shutdown(event.getJDA(), true);
+        if (Bot6329.shutdown(true)) {
+            event.reply("Remote Shutdown Procedure Initiated!").setEphemeral(true).queue();
+        } else {
+            event.reply("The bot is already shutting down! Please stand by...").setEphemeral(true).queue();
+        }
     }
 }

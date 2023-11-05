@@ -21,7 +21,8 @@ public final class CommandManager {
                 new LoopCommand(),
                 new PauseCommand(),
                 new ResumeCommand(),
-                new SkipCommand()
+                new SkipCommand(),
+                new ShutdownCommand()
         );
         CommandListUpdateAction commandUpdate = jda.updateCommands();
         commandUpdate.addCommands(Commands.slash(PlayCommand.NAME, PlayCommand.DESCRIPTION).addOption(OptionType.STRING, "track", "Name of the song or it's link.", true));
