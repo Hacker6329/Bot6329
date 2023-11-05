@@ -32,7 +32,7 @@ public final class InactivityListener extends ListenerAdapter {
                 PlayerManager.getInstance().getMusicManager(guild).getScheduler().clearQueue();
                 guild.getAudioManager().closeAudioConnection();
             }
-        }, 10, TimeUnit.SECONDS);
+        }, 1, TimeUnit.MINUTES);
     }
     private void onUserJoinChannel(@NotNull final VoiceChannel channel) {
         List<Member> members = new ArrayList<>(channel.getMembers());
