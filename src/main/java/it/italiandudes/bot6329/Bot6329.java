@@ -28,7 +28,8 @@ public final class Bot6329 {
 
         // Build & Configure the Bot Builder
         JDABuilder jdaBuilder = JDABuilder.create(Defs.TOKEN, Arrays.asList(Defs.GATEWAY_INTENTS));
-        jdaBuilder.enableCache(Arrays.asList(Defs.CACHE_FLAGS));
+        jdaBuilder.enableCache(Arrays.asList(Defs.ENABLED_CACHE_FLAGS));
+        jdaBuilder.disableCache(Arrays.asList(Defs.DISABLED_CACHE_FLAGS));
 
         // Create Bot Instance
         JDA jda = jdaBuilder.build().awaitReady();
