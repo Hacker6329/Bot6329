@@ -1,5 +1,6 @@
 package it.italiandudes.bot6329;
 
+import it.italiandudes.bot6329.listeners.ListenerManager;
 import it.italiandudes.bot6329.util.CommandManager;
 import it.italiandudes.idl.common.Logger;
 import it.italiandudes.bot6329.util.Defs;
@@ -29,10 +30,12 @@ public final class Bot6329 {
         JDABuilder jdaBuilder = JDABuilder.create(Defs.TOKEN, Arrays.asList(Defs.GATEWAY_INTENTS));
         jdaBuilder.enableCache(Arrays.asList(Defs.CACHE_FLAGS));
 
-
+        // Create Bot Instance
         JDA jda = jdaBuilder.build().awaitReady();
-        CommandManager.registerCommands(jda);
 
+        // Register Commands and Listeners
+        CommandManager.registerCommands(jda);
+        ListenerManager.registerListeners(jda);
     }
 
 }
