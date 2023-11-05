@@ -5,6 +5,9 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 public final class Defs {
 
+    // Command to shut down Bot from console
+    public static final String CONSOLE_SHUTDOWN = "stop";
+
     // Gateway Intents
     public static final GatewayIntent[] GATEWAY_INTENTS = {
             GatewayIntent.GUILD_MEMBERS,

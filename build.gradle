@@ -34,6 +34,7 @@ dependencies {
     implementation 'club.minnced:java-discord-rpc:2.0.1'
     implementation 'net.dv8tion:JDA:5.0.0-beta.17'
     implementation 'com.github.walkyst:lavaplayer-fork:1.4.3'
+    implementation 'ch.qos.logback:logback-classic:1.2.9'
 }
 
 shadowJar {
@@ -53,13 +54,13 @@ shadowJar {
 tasks.register('buildJar') {
     dependsOn shadowJar
     group = "Build"
-    description = "Build and assemble the YoutubeBot jar"
+    description = "Build and assemble the Bot6329 jar"
 }
 
 tasks.register('runBot', Exec) {
     dependsOn shadowJar
     group = "Execution"
-    description = "Buind, assemble and run YoutubeBot"
+    description = "Buind, assemble and run Bot6329"
     standardInput = System.in
     commandLine "java", "-jar", jar.archiveFile.get()
 }
