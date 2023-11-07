@@ -22,6 +22,10 @@ public final class LoopCommand extends ListenerAdapter {
         if (!event.getName().equals(NAME)) return;
         Member member = event.getMember();
         if (member == null) return;
+        if (member.getUser().isBot()) {
+            event.reply("Can't use this command as a bot!").setEphemeral(true).queue();
+            return;
+        }
         if (UserBlacklist.isUserBlacklisted(member.getUser().getId())) {
             event.reply("TITAN: SUCK IT").setEphemeral(true).queue();
             return;
