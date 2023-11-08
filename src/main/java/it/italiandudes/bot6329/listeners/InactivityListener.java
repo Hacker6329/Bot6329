@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
+import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
+import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceUpdateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +31,7 @@ public final class InactivityListener extends ListenerAdapter {
             List<Member> members = new ArrayList<>(channel.getMembers());
             members.removeIf(m -> m.getUser().isBot());
             if (members.isEmpty()) {
-                PlayerManager.getInstance().getMusicManager(guild).getScheduler().clearQueue();
+                PlayerManager.getInstance().getMusicManager(guild).getScheduler().clearQueueAndSettings();
                 guild.getAudioManager().closeAudioConnection();
             }
         }, 1, TimeUnit.MINUTES);
@@ -40,6 +42,21 @@ public final class InactivityListener extends ListenerAdapter {
         if (members.isEmpty()) return;
         INACTIVITY_SCHEDULER_MAP.get(channel.getGuild().getId()).shutdownNow();
         INACTIVITY_SCHEDULER_MAP.put(channel.getGuild().getId(), Executors.newScheduledThreadPool(1));
+    }
+
+    // On bot server leave
+    @Override
+    public void onGuildLeave(@NotNull final GuildLeaveEvent event) {
+        try {
+            INACTIVITY_SCHEDULER_MAP.get(event.getGuild().getId()).shutdownNow();
+        } catch (Exception ignored) {}
+        INACTIVITY_SCHEDULER_MAP.remove(event.getGuild().getId());
+    }
+
+    // On bot server join
+    @Override
+    public void onGuildJoin(@NotNull final GuildJoinEvent event) {
+        INACTIVITY_SCHEDULER_MAP.put(event.getGuild().getId(), Executors.newScheduledThreadPool(1));
     }
 
     // Interface Method Listener
@@ -60,7 +77,7 @@ public final class InactivityListener extends ListenerAdapter {
     }
 
     // Register Method
-    public static void registerListener(@NotNull JDA jda) {
+    public static void registerListener(@NotNull final JDA jda) {
         for (Guild guild : jda.getGuilds()) {
             INACTIVITY_SCHEDULER_MAP.put(guild.getId(), Executors.newScheduledThreadPool(1));
         }

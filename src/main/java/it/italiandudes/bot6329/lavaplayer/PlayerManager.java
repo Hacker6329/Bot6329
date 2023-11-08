@@ -7,9 +7,11 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import it.italiandudes.idl.common.Logger;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +42,16 @@ public final class PlayerManager {
     }
 
     // Methods
+    public void deleteMusicManager(@Nullable final Guild guild) {
+        Logger.log("Guild != null: " + (guild != null));
+        if (guild == null) return;
+        GuildMusicManager manager = musicManagers.get(guild.getIdLong());
+        Logger.log("manager != null: " + (manager != null));
+        if (manager != null) {
+            manager.getScheduler().clearQueueAndSettings();
+            musicManagers.remove(guild.getIdLong());
+        }
+    }
     public GuildMusicManager getMusicManager(@NotNull final Guild guild) {
         return this.musicManagers.computeIfAbsent(guild.getIdLong(), (guildID) -> {
            final GuildMusicManager guildMusicManager = new GuildMusicManager(this.audioPlayerManager);

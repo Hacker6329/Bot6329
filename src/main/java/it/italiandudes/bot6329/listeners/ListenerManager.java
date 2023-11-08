@@ -8,6 +8,7 @@ public final class ListenerManager {
     public static void registerListeners(@NotNull final JDA jda) {
         InactivityListener.registerListener(jda);
         MasterListener.registerListener(jda);
+        VoiceChannelListener.registerListener(jda);
     }
 
 }

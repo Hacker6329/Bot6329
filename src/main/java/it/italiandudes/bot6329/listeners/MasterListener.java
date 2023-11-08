@@ -128,7 +128,7 @@ public final class MasterListener extends ListenerAdapter {
     }
 
     // Failure Handler
-    private void handleFailure(Throwable throwable) {
+    private void handleFailure(@NotNull final Throwable throwable) {
         if (throwable instanceof ErrorResponseException) {
             switch (((ErrorResponseException) throwable).getErrorCode()) {
                 case 10004: // Unknown Member
@@ -144,7 +144,7 @@ public final class MasterListener extends ListenerAdapter {
     }
 
     // Register Method
-    public static void registerListener(@NotNull JDA jda) {
+    public static void registerListener(@NotNull final JDA jda) {
         jda.addEventListener(new MasterListener(jda));
     }
 }
