@@ -1,4 +1,4 @@
-package it.italiandudes.bot6329.commands;
+package it.italiandudes.bot6329.command;
 
 import it.italiandudes.bot6329.lavaplayer.PlayerManager;
 import it.italiandudes.bot6329.lavaplayer.TrackScheduler;

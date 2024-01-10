@@ -4,8 +4,8 @@ plugins {
 }
 
 // Versioning
-def versionNumber = '0.8'
-def versionType = 'BETA' // RELEASE | BETA | ALPHA
+def versionNumber = '0.8.1'
+def versionType = 'ALPHA' // RELEASE | BETA | ALPHA
 def versionMarker = versionType.charAt(0)
 
 group = 'it.italiandudes'
@@ -13,7 +13,6 @@ version = versionNumber+versionMarker
 
 repositories {
     mavenCentral()
-    jcenter()
     maven {
         url 'https://jitpack.io'
     }
@@ -30,11 +29,11 @@ dependencies {
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'commons-codec:commons-codec:1.15'
     implementation 'it.italiandudes:idl:1.0.5'
-    implementation 'org.json:json:20230618'
+    implementation 'org.json:json:20231013'
     implementation 'club.minnced:java-discord-rpc:2.0.1'
     implementation 'net.dv8tion:JDA:5.0.0-beta.17'
     implementation 'com.github.walkyst:lavaplayer-fork:1.4.3'
-    implementation 'ch.qos.logback:logback-classic:1.2.9'
+    implementation 'ch.qos.logback:logback-classic:1.4.12'
 }
 
 shadowJar {
@@ -60,7 +59,7 @@ tasks.register('buildJar') {
 tasks.register('runBot', Exec) {
     dependsOn shadowJar
     group = "Execution"
-    description = "Buind, assemble and run Bot6329"
+    description = "Build, assemble and run Bot6329"
     standardInput = System.in
     commandLine "java", "-jar", jar.archiveFile.get()
 }

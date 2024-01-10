@@ -1,12 +1,15 @@
 package it.italiandudes.bot6329.util;
 
+import it.italiandudes.bot6329.Bot6329;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Objects;
 
 public final class Defs {
-
-    // Command to shut down Bot from console
-    public static final String CONSOLE_SHUTDOWN = "stop";
 
     // Gateway Intents
     public static final GatewayIntent[] GATEWAY_INTENTS = {
@@ -39,5 +42,4 @@ public final class Defs {
 
     // Bot Token: DO NOT SHARE IT FOR ANY REASON
     public static final String TOKEN = "MTE2OTU5MDgyNTM2MjE0MTIwNQ.GfT46s.kfQBB31_4SJrrUx9fKIiNKH6W_dHbsyk833LPk";
-
 }

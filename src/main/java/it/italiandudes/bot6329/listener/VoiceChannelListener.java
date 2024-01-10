@@ -1,4 +1,4 @@
-package it.italiandudes.bot6329.listeners;
+package it.italiandudes.bot6329.listener;
 
 import it.italiandudes.bot6329.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.JDA;

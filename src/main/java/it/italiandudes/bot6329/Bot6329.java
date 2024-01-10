@@ -1,6 +1,8 @@
 package it.italiandudes.bot6329;
 
-import it.italiandudes.bot6329.listeners.ListenerManager;
+import it.italiandudes.bot6329.console.ConsoleCommand;
+import it.italiandudes.bot6329.console.ConsoleCommandHandler;
+import it.italiandudes.bot6329.listener.ListenerManager;
 import it.italiandudes.bot6329.util.CommandManager;
 import it.italiandudes.idl.common.Logger;
 import it.italiandudes.bot6329.util.Defs;
@@ -10,13 +12,13 @@ import net.dv8tion.jda.api.JDABuilder;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public final class Bot6329 {
 
     // Attributes
     private static JDA jda = null;
-    private static boolean shutdownInitiated = false;
 
     // Main Method
     public static void main(String[] args) throws InterruptedException {
@@ -45,39 +47,45 @@ public final class Bot6329 {
         ListenerManager.registerListeners(jda);
 
         Logger.log("Bot Status: ONLINE");
-        Logger.log("Type \"" + Defs.CONSOLE_SHUTDOWN + "\" to initialize bot shutdown");
+        Logger.log("Type \"" + ConsoleCommand.HELP.aliases[0] + "\" to see the list of all commands.");
 
         Scanner scan = new Scanner(System.in);
         while (true) {
-            String consoleInput = scan.nextLine();
-            if (consoleInput.equals(Defs.CONSOLE_SHUTDOWN)) {
-                shutdown(false);
-                break;
-            }
+            try {
+                String userInput = scan.nextLine();
+                if (!ConsoleCommandHandler.handleConsoleCommand(userInput)) break;
+            } catch (NoSuchElementException ignored) {}
         }
+        System.exit(0);
     }
 
-    // Shutdown Method
-    public static boolean shutdown(boolean remoteShutdown) {
-        if (shutdownInitiated) {
-            if (!remoteShutdown) Logger.log("Shutdown already initiated! Please stand by...");
-            return false;
-        }
-        if (remoteShutdown) Logger.log("!!THE MASTER HAS INVOKED THE REMOTE SHUTDOWN!!");
-        else Logger.log("Shutdown initiated: Please stand by...");
-        shutdownInitiated = true;
-        new Thread(() -> {
-            jda.shutdown();
-            try {
-                if (!jda.awaitShutdown(Duration.ofMinutes(1))) {
+    // Internal Methods
+    public static class InternalMethods {
+
+        // Attributes
+        private static boolean shutdownInitiated = false;
+
+        // Methods
+        public static boolean shutdown(boolean remoteShutdown) {
+            if (shutdownInitiated) {
+                if (!remoteShutdown) Logger.log("Shutdown already initiated! Please stand by...");
+                return false;
+            }
+            if (remoteShutdown) Logger.log("!!THE MASTER HAS INVOKED THE REMOTE SHUTDOWN!!");
+            else Logger.log("Shutdown initiated: Please stand by...");
+            shutdownInitiated = true;
+            new Thread(() -> {
+                jda.shutdown();
+                try {
+                    if (!jda.awaitShutdown(Duration.ofMinutes(1))) {
+                        jda.shutdownNow();
+                    }
+                } catch (InterruptedException e) {
                     jda.shutdownNow();
                 }
-            } catch (InterruptedException e) {
-                jda.shutdownNow();
-            }
-            Logger.log("Bot Status: OFFLINE");
-            System.exit(0);
-        }).start();
-        return true;
+                Logger.log("Bot Status: OFFLINE");
+            }).start();
+            return true;
+        }
     }
 }

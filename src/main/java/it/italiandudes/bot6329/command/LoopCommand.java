@@ -1,4 +1,4 @@
-package it.italiandudes.bot6329.commands;
+package it.italiandudes.bot6329.command;
 
 import it.italiandudes.bot6329.lavaplayer.PlayerManager;
 import it.italiandudes.bot6329.lavaplayer.TrackScheduler;
@@ -10,11 +10,11 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-public final class ResumeCommand extends ListenerAdapter {
+public final class LoopCommand extends ListenerAdapter {
 
     // Attributes
-    public static final String NAME = "resume";
-    public static final String DESCRIPTION = "Resume the current playing track";
+    public static final String NAME = "loop";
+    public static final String DESCRIPTION = "Toggle the loop mode";
 
     // Command Body
     @Override
@@ -55,15 +55,7 @@ public final class ResumeCommand extends ListenerAdapter {
         }
 
         TrackScheduler scheduler = PlayerManager.getInstance().getMusicManager(guild).getScheduler();
-        if (!scheduler.isPlayingTrack()) {
-            event.reply("I'm not playing a track!").setEphemeral(true).queue();
-            return;
-        }
-        if (!scheduler.isPaused()) {
-            event.reply("I'm not paused!").setEphemeral(true).queue();
-            return;
-        }
-        scheduler.setPaused(false);
-        event.reply("Track play resumed!").queue();
+        scheduler.setLoopMode(!scheduler.isLoopMode());
+        event.reply("Loop Mode: " + (scheduler.isLoopMode()?"ON":"OFF")).queue();
     }
 }

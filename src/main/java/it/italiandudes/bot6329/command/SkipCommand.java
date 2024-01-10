@@ -1,6 +1,7 @@
-package it.italiandudes.bot6329.commands;
+package it.italiandudes.bot6329.command;
 
 import it.italiandudes.bot6329.lavaplayer.PlayerManager;
+import it.italiandudes.bot6329.lavaplayer.TrackScheduler;
 import it.italiandudes.bot6329.util.UserBlacklist;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
@@ -9,11 +10,11 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-public class StopCommand extends ListenerAdapter {
+public class SkipCommand extends ListenerAdapter {
 
     // Attributes
-    public static final String NAME = "stop";
-    public static final String DESCRIPTION = "Stop the playing track and make the bot leave the channel";
+    public static final String NAME = "skip";
+    public static final String DESCRIPTION = "Skip the current track and play the next one if present";
 
     // Command Body
     @Override
@@ -53,9 +54,13 @@ public class StopCommand extends ListenerAdapter {
             return;
         }
 
-        event.reply("Leaving the channel!").queue();
-        guild.getAudioManager().closeAudioConnection();
-        PlayerManager.getInstance().getMusicManager(guild).getScheduler().clearQueueAndSettings();
-    }
+        TrackScheduler scheduler = PlayerManager.getInstance().getMusicManager(guild).getScheduler();
+        if (!scheduler.isPlayingTrack()) {
+            event.reply("I'm not playing a track!").setEphemeral(true).queue();
+            return;
+        }
 
+        scheduler.nextTrack();
+        event.reply("Track skipped!").queue();
+    }
 }

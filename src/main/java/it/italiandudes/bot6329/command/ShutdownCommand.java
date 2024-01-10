@@ -1,4 +1,4 @@
-package it.italiandudes.bot6329.commands;
+package it.italiandudes.bot6329.command;
 
 import it.italiandudes.bot6329.Bot6329;
 import it.italiandudes.bot6329.util.Defs;
@@ -32,7 +32,7 @@ public final class ShutdownCommand extends ListenerAdapter {
             event.reply("Error: Only the Master can run this command.").setEphemeral(true).queue();
             return;
         }
-        if (Bot6329.shutdown(true)) {
+        if (Bot6329.InternalMethods.shutdown(true)) {
             event.reply("Remote Shutdown Procedure Initiated!").setEphemeral(true).queue();
         } else {
             event.reply("The bot is already shutting down! Please stand by...").setEphemeral(true).queue();

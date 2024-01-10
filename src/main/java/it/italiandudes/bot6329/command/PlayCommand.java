@@ -1,20 +1,23 @@
-package it.italiandudes.bot6329.commands;
+package it.italiandudes.bot6329.command;
 
 import it.italiandudes.bot6329.lavaplayer.PlayerManager;
-import it.italiandudes.bot6329.lavaplayer.TrackScheduler;
 import it.italiandudes.bot6329.util.UserBlacklist;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.NotNull;
 
-public final class LoopCommand extends ListenerAdapter {
+import java.net.URI;
+import java.net.URISyntaxException;
+
+public class PlayCommand extends ListenerAdapter {
 
     // Attributes
-    public static final String NAME = "loop";
-    public static final String DESCRIPTION = "Toggle the loop mode";
+    public static final String NAME = "play";
+    public static final String DESCRIPTION = "Play a resource from a link in your voice channel";
 
     // Command Body
     @Override
@@ -43,19 +46,41 @@ public final class LoopCommand extends ListenerAdapter {
             return;
         }
 
+        OptionMapping trackOption = event.getOption("track");
+        if (trackOption == null) {
+            event.reply("You must provide the name of the song or the link!").setEphemeral(true).queue();
+            return;
+        }
+        String track = trackOption.getAsString();
+        if (!isURL(track)) {
+            track = "ytsearch:" + track + " audio";
+        }
+
         Member self = guild.getSelfMember();
         GuildVoiceState selfVoiceState = self.getVoiceState();
 
         if (selfVoiceState == null || !selfVoiceState.inAudioChannel() || selfVoiceState.getChannel() == null) {
-            event.reply("I'm not in the audio channel!").setEphemeral(true).queue();
-            return;
+            guild.getAudioManager().openAudioConnection(memberVoiceState.getChannel());
+            guild.getAudioManager().setSelfDeafened(true);
+            event.reply("Joining in **" + memberVoiceState.getChannel().getName() + "**").queue();
         } else if (selfVoiceState.getChannel() != memberVoiceState.getChannel()) {
             event.reply("You need to be in the same channel of the bot to use this command!").setEphemeral(true).queue();
             return;
+        } else {
+            event.reply("Computing...").setEphemeral(true).queue();
         }
 
-        TrackScheduler scheduler = PlayerManager.getInstance().getMusicManager(guild).getScheduler();
-        scheduler.setLoopMode(!scheduler.isLoopMode());
-        event.reply("Loop Mode: " + (scheduler.isLoopMode()?"ON":"OFF")).queue();
+        PlayerManager playerManager = PlayerManager.getInstance();
+        playerManager.loadAndPlay(event.getChannel().asTextChannel(), track);
+    }
+
+    // Methods
+    private boolean isURL(@NotNull final String URL) {
+        try {
+            new URI(URL);
+            return true;
+        } catch (URISyntaxException e) {
+            return false;
+        }
     }
 }

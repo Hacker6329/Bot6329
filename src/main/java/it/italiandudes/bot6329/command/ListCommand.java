@@ -1,4 +1,4 @@
-package it.italiandudes.bot6329.commands;
+package it.italiandudes.bot6329.command;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import it.italiandudes.bot6329.lavaplayer.PlayerManager;
