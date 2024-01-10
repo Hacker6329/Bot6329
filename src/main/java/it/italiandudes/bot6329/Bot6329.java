@@ -4,8 +4,8 @@ import it.italiandudes.bot6329.console.ConsoleCommand;
 import it.italiandudes.bot6329.console.ConsoleCommandHandler;
 import it.italiandudes.bot6329.listener.ListenerManager;
 import it.italiandudes.bot6329.util.CommandManager;
-import it.italiandudes.idl.common.Logger;
 import it.italiandudes.bot6329.util.Defs;
+import it.italiandudes.idl.common.Logger;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 

@@ -1,8 +1,8 @@
 package it.italiandudes.bot6329.module;
 
 import it.italiandudes.bot6329.error.ModuleError;
-import it.italiandudes.bot6329.exception.module.localization.*;
 import it.italiandudes.bot6329.exception.ModuleException;
+import it.italiandudes.bot6329.exception.module.localization.*;
 import it.italiandudes.bot6329.localization.Localization;
 import it.italiandudes.bot6329.util.Resource;
 import it.italiandudes.idl.common.Logger;

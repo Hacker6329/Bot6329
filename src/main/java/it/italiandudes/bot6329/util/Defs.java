@@ -1,13 +1,7 @@
 package it.italiandudes.bot6329.util;
 
-import it.italiandudes.bot6329.Bot6329;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Objects;
 
 public final class Defs {
 
