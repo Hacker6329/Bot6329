@@ -1,4 +1,4 @@
-package it.italiandudes.bot6329.error;
+package it.italiandudes.bot6329.throwable.error;
 
 @SuppressWarnings("unused")
 public class ModuleError extends Error {

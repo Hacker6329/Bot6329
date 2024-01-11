@@ -1,6 +1,6 @@
-package it.italiandudes.bot6329.exception.module.generic;
+package it.italiandudes.bot6329.throwable.exception.module.generic;
 
-import it.italiandudes.bot6329.exception.ModuleException;
+import it.italiandudes.bot6329.throwable.exception.ModuleException;
 
 @SuppressWarnings("unused")
 public final class ModuleReloadingException extends ModuleException {

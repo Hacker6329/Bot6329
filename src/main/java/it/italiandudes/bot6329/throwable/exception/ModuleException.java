@@ -1,4 +1,4 @@
-package it.italiandudes.bot6329.exception;
+package it.italiandudes.bot6329.throwable.exception;
 
 @SuppressWarnings("unused")
 public class ModuleException extends Exception {

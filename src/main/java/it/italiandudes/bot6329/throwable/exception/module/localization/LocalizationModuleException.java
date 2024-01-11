@@ -1,6 +1,6 @@
-package it.italiandudes.bot6329.exception.module.localization;
+package it.italiandudes.bot6329.throwable.exception.module.localization;
 
-import it.italiandudes.bot6329.exception.ModuleException;
+import it.italiandudes.bot6329.throwable.exception.ModuleException;
 
 @SuppressWarnings("unused")
 public class LocalizationModuleException extends ModuleException {

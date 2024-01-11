@@ -1,4 +1,4 @@
-package it.italiandudes.bot6329.localization;
+package it.italiandudes.bot6329.module.localization;
 
 import it.italiandudes.bot6329.util.Resource;
 import org.jetbrains.annotations.NotNull;

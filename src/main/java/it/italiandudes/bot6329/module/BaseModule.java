@@ -1,13 +1,26 @@
 package it.italiandudes.bot6329.module;
 
-import it.italiandudes.bot6329.error.ModuleError;
-import it.italiandudes.bot6329.exception.module.generic.*;
+import it.italiandudes.bot6329.throwable.error.ModuleError;
+import it.italiandudes.bot6329.throwable.exception.ModuleException;
+import it.italiandudes.bot6329.throwable.exception.module.generic.*;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class BaseModule {
 
     // Attributes
     @NotNull private ModuleState moduleState = ModuleState.NOT_LOADED;
+    public final String MODULE_NAME;
+
+    // Base Module Constructor
+    protected BaseModule(@NotNull final String MODULE_NAME) {
+        this.MODULE_NAME = MODULE_NAME;
+    }
+
+    // Abstract Methods
+    public abstract void loadModule(final boolean isReloading) throws ModuleException, ModuleError;
+    public abstract void unloadModule(final boolean isReloading) throws ModuleException, ModuleError;
+    protected abstract void unloadModule(final boolean isReloading, final boolean bypassPreliminaryChecks) throws ModuleException, ModuleError;
+    public abstract void reloadModule() throws ModuleException, ModuleError;
 
     // Implemented Methods
     protected synchronized void setModuleState(@NotNull final ModuleState moduleState) {

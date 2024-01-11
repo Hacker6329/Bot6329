@@ -23,4 +23,9 @@ public class Resource {
     public static final class Localization {
         public static final String LOCALIZATION_DIR = JAR_ROOT_DIRECTORY + "localization/";
     }
+    public static final class Configuration {
+        public static final String CONFIGURATION_DIR = JAR_ROOT_DIRECTORY + "configuration/";
+        public static final String CONFIGURATION_FILENAME = "configuration.json";
+        public static final String CONFIGURATION_FILEPATH = CONFIGURATION_DIR + CONFIGURATION_FILENAME;
+    }
 }

@@ -1,4 +1,4 @@
-package it.italiandudes.bot6329.exception.module.localization;
+package it.italiandudes.bot6329.throwable.exception.module.localization;
 
 @SuppressWarnings("unused")
 public class LocalizationMapUnloadException extends LocalizationModuleException {
