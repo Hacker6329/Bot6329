@@ -8,6 +8,7 @@ import it.italiandudes.bot6329.util.Defs;
 import it.italiandudes.idl.common.Logger;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import it.italiandudes.bot6329.Bot6329;
 
 import java.io.IOException;
 import java.time.Duration;
