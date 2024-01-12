@@ -5,6 +5,7 @@ build/
 !**/src/test/**/build/
 logs/
 .idea/
+configuration.json
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

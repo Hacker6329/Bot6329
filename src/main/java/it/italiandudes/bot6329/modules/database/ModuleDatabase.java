@@ -2,7 +2,7 @@ package it.italiandudes.bot6329.modules.database;
 
 import it.italiandudes.bot6329.modules.BaseModule;
 import it.italiandudes.bot6329.modules.ModuleState;
-import it.italiandudes.bot6329.modules.configuration.ConfigurationKey;
+import it.italiandudes.bot6329.modules.configuration.ConfigurationMap;
 import it.italiandudes.bot6329.modules.configuration.ModuleConfiguration;
 import it.italiandudes.bot6329.throwables.errors.ModuleError;
 import it.italiandudes.bot6329.throwables.exceptions.ModuleException;
@@ -30,7 +30,7 @@ public class ModuleDatabase extends BaseModule {
         if (!isReloading) setModuleState(ModuleState.LOADING);
 
         try {
-            String databasePath = (String) ModuleConfiguration.getInstance().getConfigValue(ConfigurationKey.KEY_DATABASE_PATH);
+            String databasePath = (String) ModuleConfiguration.getInstance().getConfigValue(ConfigurationMap.Keys.DATABASE_PATH);
             if (databasePath == null) {
                 setModuleState(ModuleState.ERROR);
                 throw new ModuleError(MODULE_NAME + " Module Load: Failed! (Reason: the database path provided in configuration is null)");
@@ -127,9 +127,6 @@ public class ModuleDatabase extends BaseModule {
             return dbConnection.prepareStatement(QUERY);
         }
         return null;
-    }
-    public void commit() throws SQLException {
-        if (dbConnection != null) dbConnection.commit();
     }
     public boolean isKeyParameterPresent(@NotNull final String KEY) throws SQLException {
         String query = "SELECT * FROM key_parameters WHERE param_key=?;";

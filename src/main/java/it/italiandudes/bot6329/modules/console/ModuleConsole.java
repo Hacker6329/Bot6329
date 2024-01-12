@@ -36,9 +36,6 @@ public class ModuleConsole extends BaseModule {
         if (!isReloading) setModuleState(ModuleState.UNLOADING);
 
         consoleReaderThread.interrupt();
-        try {
-            consoleReaderThread.join();
-        } catch (InterruptedException ignored){}
 
         if (!isReloading) setModuleState(ModuleState.NOT_LOADED);
         Logger.log(MODULE_NAME + " Module Unload: Successful!");

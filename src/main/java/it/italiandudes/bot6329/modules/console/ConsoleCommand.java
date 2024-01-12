@@ -6,10 +6,9 @@ import it.italiandudes.bot6329.modules.console.commands.StopConsoleCommand;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("unused")
 public enum ConsoleCommand {
-    HELP(new StopConsoleCommand()),
-    STOP(new HelpConsoleCommand()),
+    HELP(new HelpConsoleCommand()),
+    STOP(new StopConsoleCommand()),
     ;
 
     // Attributes
@@ -39,5 +38,9 @@ public enum ConsoleCommand {
     }
     public final String getSynopsis() {
         return command.getSynopsis();
+    }
+    @Override
+    public String toString() {
+        return command.toString();
     }
 }

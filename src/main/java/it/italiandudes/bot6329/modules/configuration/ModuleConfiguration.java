@@ -31,7 +31,7 @@ public final class ModuleConfiguration extends BaseModule {
         moduleLoadPreliminaryCheck(MODULE_NAME, isReloading);
         if (!isReloading) setModuleState(ModuleState.LOADING);
 
-        File configurationFilePath = new File(Defs.JAR_DIRECTORY_PATH + Resource.Configuration.CONFIGURATION_FILENAME);
+        File configurationFilePath = new File(Resource.Configuration.CONFIGURATION_FILENAME);
         if (!configurationFilePath.exists() || !configurationFilePath.isFile()) {
             try {
                 JarHandler.copyFileFromJar(new File(Defs.JAR_PATH), Resource.Configuration.CONFIGURATION_FILEPATH, configurationFilePath, true);
@@ -43,6 +43,7 @@ public final class ModuleConfiguration extends BaseModule {
 
         try {
             configuration = JSONManager.readJSON(configurationFilePath);
+            validateAndFixConfiguration();
         } catch (FileNotFoundException fileNotFoundException) {
             setModuleState(ModuleState.ERROR);
             throw new ModuleError(MODULE_NAME + " Module Load: Failed! (Reason: configuration file not found, this shouldn't happen)", fileNotFoundException);
@@ -67,6 +68,25 @@ public final class ModuleConfiguration extends BaseModule {
     }
 
     // Module Methods
+    private void validateAndFixConfiguration()throws ModuleException {
+        try {
+            String token = configuration.getString(ConfigurationMap.Keys.TOKEN);
+            if (token == null) {
+                throw new ModuleException(MODULE_NAME + " Module Load: Failed! (Reason: \"token\" into the configuration file can't be null)");
+            }
+        } catch (JSONException e) {
+            ConfigurationMap.fixEntry(configuration, ConfigurationMap.Keys.TOKEN);
+            throw new ModuleException(MODULE_NAME + " Module Load: Failed! (Reason: \"token\" into the configuration file can't be null)");
+        }
+        try {
+            String databasePath = configuration.getString(ConfigurationMap.Keys.DATABASE_PATH);
+            if (databasePath == null) {
+                throw new ModuleException(MODULE_NAME + " Module Load: Failed! (Reason: \"database_path\" into the configuration file can't be null)");
+            }
+        } catch (JSONException e) {
+            ConfigurationMap.fixEntry(configuration, ConfigurationMap.Keys.DATABASE_PATH);
+        }
+    }
     @Nullable
     public Object getConfigValue(@NotNull final String key) throws ConfigurationModuleException {
         if (getModuleState() != ModuleState.LOADED) throw new ConfigurationModuleException("The configuration module is not loaded");

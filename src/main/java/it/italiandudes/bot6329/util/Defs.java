@@ -50,7 +50,4 @@ public final class Defs {
 
     // Hacker6329's Account ID
     public static final String MASTER_ACCOUNT_ID = "467835670761701376";
-
-    // Bot Token: DO NOT SHARE IT FOR ANY REASON
-    public static final String TOKEN = "MTE2OTU5MDgyNTM2MjE0MTIwNQ.GfT46s.kfQBB31_4SJrrUx9fKIiNKH6W_dHbsyk833LPk";
 }

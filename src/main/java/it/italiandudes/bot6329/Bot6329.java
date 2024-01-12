@@ -1,16 +1,12 @@
 package it.italiandudes.bot6329;
 
+import it.italiandudes.bot6329.modules.configuration.ModuleConfiguration;
 import it.italiandudes.bot6329.modules.console.ConsoleCommand;
-import it.italiandudes.bot6329.listeners.ListenerManager;
-import it.italiandudes.bot6329.util.CommandManager;
-import it.italiandudes.bot6329.util.Defs;
 import it.italiandudes.idl.common.Logger;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Arrays;
 
 public final class Bot6329 {
 
@@ -18,7 +14,7 @@ public final class Bot6329 {
     private static JDA jda = null;
 
     // Main Method
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
         // Initializing the logger (even if JDA has a Logger, i prefer mine)
         try {
@@ -31,6 +27,7 @@ public final class Bot6329 {
         // Configure the shutdown hooks
         Runtime.getRuntime().addShutdownHook(new Thread(Logger::close));
 
+        /*
         // Build & Configure the Bot Builder
         JDABuilder jdaBuilder = JDABuilder.create(Defs.TOKEN, Arrays.asList(Defs.GATEWAY_INTENTS));
         jdaBuilder.enableCache(Arrays.asList(Defs.ENABLED_CACHE_FLAGS));
@@ -42,6 +39,13 @@ public final class Bot6329 {
         // Register Commands and Listeners
         CommandManager.registerCommands(jda);
         ListenerManager.registerListeners(jda);
+        */
+
+        try {
+            ModuleConfiguration.getInstance().loadModule();
+        } catch (Throwable e) {
+            Logger.log(e);
+        }
 
         Logger.log("Bot Status: ONLINE");
         Logger.log("Type \"" + ConsoleCommand.HELP.getName() + "\" to see the list of all commands.");
