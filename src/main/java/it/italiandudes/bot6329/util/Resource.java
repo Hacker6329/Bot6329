@@ -28,4 +28,8 @@ public class Resource {
         public static final String CONFIGURATION_FILENAME = "configuration.json";
         public static final String CONFIGURATION_FILEPATH = CONFIGURATION_DIR + CONFIGURATION_FILENAME;
     }
+    public static final class SQL {
+        public static final String SQL_DIR = JAR_ROOT_DIRECTORY + "sql/";
+        public static final String DATABASE_SQL_FILEPATH = SQL_DIR + "database.sql";
+    }
 }

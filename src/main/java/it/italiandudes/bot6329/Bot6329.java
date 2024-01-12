@@ -1,20 +1,16 @@
 package it.italiandudes.bot6329;
 
-import it.italiandudes.bot6329.console.ConsoleCommand;
-import it.italiandudes.bot6329.console.ConsoleCommandHandler;
-import it.italiandudes.bot6329.listener.ListenerManager;
+import it.italiandudes.bot6329.modules.console.ConsoleCommand;
+import it.italiandudes.bot6329.listeners.ListenerManager;
 import it.italiandudes.bot6329.util.CommandManager;
 import it.italiandudes.bot6329.util.Defs;
 import it.italiandudes.idl.common.Logger;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import it.italiandudes.bot6329.*;
 
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 public final class Bot6329 {
 
@@ -48,16 +44,7 @@ public final class Bot6329 {
         ListenerManager.registerListeners(jda);
 
         Logger.log("Bot Status: ONLINE");
-        Logger.log("Type \"" + ConsoleCommand.HELP.aliases[0] + "\" to see the list of all commands.");
-
-        Scanner scan = new Scanner(System.in);
-        while (true) {
-            try {
-                String userInput = scan.nextLine();
-                if (!ConsoleCommandHandler.handleConsoleCommand(userInput)) break;
-            } catch (NoSuchElementException ignored) {}
-        }
-        System.exit(0);
+        Logger.log("Type \"" + ConsoleCommand.HELP.getName() + "\" to see the list of all commands.");
     }
 
     // Internal Methods
