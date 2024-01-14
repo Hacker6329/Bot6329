@@ -35,7 +35,7 @@ public class ModuleConsole extends BaseModule {
         if (!bypassPreliminaryChecks) moduleUnloadPreliminaryCheck(MODULE_NAME, isReloading);
         if (!isReloading) setModuleState(ModuleState.UNLOADING);
 
-        consoleReaderThread.interrupt();
+        if (consoleReaderThread != null) consoleReaderThread.interrupt();
 
         if (!isReloading) setModuleState(ModuleState.NOT_LOADED);
         Logger.log(MODULE_NAME + " Module Unload: Successful!");
@@ -60,6 +60,7 @@ public class ModuleConsole extends BaseModule {
             return;
         }
 
+        if (commandArgs == null) commandArgs = new String[]{};
         int code = consoleCommand.execute(commandArgs);
         Logger.log("Command execution terminated with code: " + code);
         if (code != 0) {

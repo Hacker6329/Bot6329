@@ -1,4 +1,4 @@
-package it.italiandudes.bot6329.lavaplayer;
+package it.italiandudes.bot6329.modules.jda.lavaplayer;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;

@@ -1,9 +1,9 @@
-package it.italiandudes.bot6329.commands;
+package it.italiandudes.bot6329.modules.jda.commands;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
-import it.italiandudes.bot6329.lavaplayer.PlayerManager;
-import it.italiandudes.bot6329.lavaplayer.TrackScheduler;
-import it.italiandudes.bot6329.util.UserBlacklist;
+import it.italiandudes.bot6329.modules.jda.ModuleJDA;
+import it.italiandudes.bot6329.modules.jda.lavaplayer.PlayerManager;
+import it.italiandudes.bot6329.modules.jda.lavaplayer.TrackScheduler;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
@@ -20,7 +20,7 @@ public final class ListCommand extends ListenerAdapter {
     public static final String DESCRIPTION = "List the playing song and all the queued songs";
 
     // Command Body
-    @Override
+    @Override @SuppressWarnings("DuplicatedCode")
     public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
         if (!event.getName().equals(NAME)) return;
         Member member = event.getMember();
@@ -29,7 +29,7 @@ public final class ListCommand extends ListenerAdapter {
             event.reply("Can't use this command as a bot!").setEphemeral(true).queue();
             return;
         }
-        if (UserBlacklist.isUserBlacklisted(member.getUser().getId())) {
+        if (ModuleJDA.getInstance().isUserBlacklisted(member.getUser().getId())) {
             event.reply("TITAN: SUCK IT").setEphemeral(true).queue();
             return;
         }

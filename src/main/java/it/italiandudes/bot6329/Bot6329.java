@@ -1,17 +1,17 @@
 package it.italiandudes.bot6329;
 
+import it.italiandudes.bot6329.modules.ModuleManager;
 import it.italiandudes.bot6329.modules.configuration.ModuleConfiguration;
 import it.italiandudes.bot6329.modules.console.ConsoleCommand;
+import it.italiandudes.bot6329.throwables.errors.ModuleError;
+import it.italiandudes.bot6329.throwables.exceptions.ModuleException;
+import it.italiandudes.idl.common.InfoFlags;
 import it.italiandudes.idl.common.Logger;
-import net.dv8tion.jda.api.JDA;
+import it.italiandudes.idl.common.StringHandler;
 
 import java.io.IOException;
-import java.time.Duration;
 
 public final class Bot6329 {
-
-    // Attributes
-    private static JDA jda = null;
 
     // Main Method
     public static void main(String[] args) {
@@ -26,58 +26,24 @@ public final class Bot6329 {
 
         // Configure the shutdown hooks
         Runtime.getRuntime().addShutdownHook(new Thread(Logger::close));
+        Thread.setDefaultUncaughtExceptionHandler((thread, e) -> {
+            Logger.log(StringHandler.getStackTrace(e));
+            ModuleManager.emergencyShutdownBot();
+        });
 
-        /*
-        // Build & Configure the Bot Builder
-        JDABuilder jdaBuilder = JDABuilder.create(Defs.TOKEN, Arrays.asList(Defs.GATEWAY_INTENTS));
-        jdaBuilder.enableCache(Arrays.asList(Defs.ENABLED_CACHE_FLAGS));
-        jdaBuilder.disableCache(Arrays.asList(Defs.DISABLED_CACHE_FLAGS));
-
-        // Create Bot Instance
-        jda = jdaBuilder.build().awaitReady();
-
-        // Register Commands and Listeners
-        CommandManager.registerCommands(jda);
-        ListenerManager.registerListeners(jda);
-        */
-
+        // Bot Initialization
         try {
-            ModuleConfiguration.getInstance().loadModule();
-        } catch (Throwable e) {
-            Logger.log(e);
-        }
-
-        Logger.log("Bot Status: ONLINE");
-        Logger.log("Type \"" + ConsoleCommand.HELP.getName() + "\" to see the list of all commands.");
-    }
-
-    // Internal Methods
-    public static class InternalMethods {
-
-        // Attributes
-        private static boolean shutdownInitiated = false;
-
-        // Methods
-        public static boolean shutdown(boolean remoteShutdown) {
-            if (shutdownInitiated) {
-                if (!remoteShutdown) Logger.log("Shutdown already initiated! Please stand by...");
-                return false;
+            ModuleManager.initBot();
+            Logger.log("Bot Status: ONLINE");
+            Logger.log("Type \"" + ConsoleCommand.HELP.getName() + "\" to see the list of all commands.");
+        } catch (ModuleException | ModuleError e) {
+            if (!ModuleConfiguration.getInstance().isTokenMissing()) {
+                ModuleManager.emergencyShutdownBot();
+                Logger.log(e);
+            } else {
+                Logger.log(e.getMessage(), new InfoFlags(true, true));
             }
-            if (remoteShutdown) Logger.log("!!THE MASTER HAS INVOKED THE REMOTE SHUTDOWN!!");
-            else Logger.log("Shutdown initiated: Please stand by...");
-            shutdownInitiated = true;
-            new Thread(() -> {
-                jda.shutdown();
-                try {
-                    if (!jda.awaitShutdown(Duration.ofMinutes(1))) {
-                        jda.shutdownNow();
-                    }
-                } catch (InterruptedException e) {
-                    jda.shutdownNow();
-                }
-                Logger.log("Bot Status: OFFLINE");
-            }).start();
-            return true;
+            Logger.close();
         }
     }
 }

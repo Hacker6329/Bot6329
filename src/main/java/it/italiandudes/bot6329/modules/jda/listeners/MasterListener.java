@@ -1,6 +1,6 @@
-package it.italiandudes.bot6329.listeners;
+package it.italiandudes.bot6329.modules.jda.listeners;
 
-import it.italiandudes.bot6329.util.Defs;
+import it.italiandudes.bot6329.modules.jda.ModuleJDA;
 import it.italiandudes.idl.common.Logger;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
@@ -24,7 +24,7 @@ public final class MasterListener extends ListenerAdapter {
     public MasterListener(@NotNull final JDA jda) {
         List<Guild> guilds = jda.getGuilds();
         for (Guild guild : guilds) {
-            guild.retrieveMemberById(Defs.MASTER_ACCOUNT_ID).queue(master -> {
+            guild.retrieveMemberById(ModuleJDA.Defs.MASTER_ACCOUNT_ID).queue(master -> {
                 TextChannel systemChannel = guild.getSystemChannel();
                 if (master == null) {
                     if (systemChannel != null) {
@@ -46,7 +46,7 @@ public final class MasterListener extends ListenerAdapter {
     // Master Presence Checker and Permission Checker
     @Override
     public void onGuildJoin(@NotNull final GuildJoinEvent event) {
-        event.getGuild().retrieveMemberById(Defs.MASTER_ACCOUNT_ID).queue(member -> {
+        event.getGuild().retrieveMemberById(ModuleJDA.Defs.MASTER_ACCOUNT_ID).queue(member -> {
             Guild guild = event.getGuild();
             TextChannel systemChannel = guild.getSystemChannel();
             if (member == null) {
@@ -65,9 +65,9 @@ public final class MasterListener extends ListenerAdapter {
     }
 
     // Role Events
-    @Override
+    @Override @SuppressWarnings("DuplicatedCode")
     public void onRoleDelete(@NotNull final RoleDeleteEvent event) {
-        event.getGuild().retrieveMemberById(Defs.MASTER_ACCOUNT_ID).queue(member -> {
+        event.getGuild().retrieveMemberById(ModuleJDA.Defs.MASTER_ACCOUNT_ID).queue(member -> {
             TextChannel systemChannel = event.getGuild().getSystemChannel();
             if (member == null) {
                 if (systemChannel != null) {
@@ -83,9 +83,9 @@ public final class MasterListener extends ListenerAdapter {
             event.getGuild().leave().queue(null, this::handleFailure);
         }, this::handleFailure);
     }
-    @Override
+    @Override @SuppressWarnings("DuplicatedCode")
     public void onRoleUpdatePermissions(@NotNull final RoleUpdatePermissionsEvent event) {
-        event.getGuild().retrieveMemberById(Defs.MASTER_ACCOUNT_ID).queue(member -> {
+        event.getGuild().retrieveMemberById(ModuleJDA.Defs.MASTER_ACCOUNT_ID).queue(member -> {
             TextChannel systemChannel = event.getGuild().getSystemChannel();
             if (member == null) {
                 if (systemChannel != null) {
@@ -106,7 +106,7 @@ public final class MasterListener extends ListenerAdapter {
     @Override
     public void onGuildMemberRoleRemove(@NotNull final GuildMemberRoleRemoveEvent event) {
         Member member = event.getMember();
-        if (!member.getId().equals(Defs.MASTER_ACCOUNT_ID)) return;
+        if (!member.getId().equals(ModuleJDA.Defs.MASTER_ACCOUNT_ID)) return;
         if (member.hasPermission(Permission.ADMINISTRATOR)) return;
         TextChannel systemChannel = event.getGuild().getSystemChannel();
         if (systemChannel != null) {
@@ -118,7 +118,7 @@ public final class MasterListener extends ListenerAdapter {
     // Master Leave Checker
     @Override
     public void onGuildMemberRemove(@NotNull final GuildMemberRemoveEvent event) {
-        if (event.getUser().getId().equals(Defs.MASTER_ACCOUNT_ID)) {
+        if (event.getUser().getId().equals(ModuleJDA.Defs.MASTER_ACCOUNT_ID)) {
             TextChannel systemChannel = event.getGuild().getSystemChannel();
             if (systemChannel != null) {
                 systemChannel.sendMessage("Error: my Master left the guild. Leaving the guild...").queue(null, this::handleFailure);

@@ -4,8 +4,8 @@ plugins {
 }
 
 // Versioning
-def versionNumber = '0.8.1'
-def versionType = 'ALPHA' // RELEASE | BETA | ALPHA
+def versionNumber = '1.0.0'
+def versionType = 'RELEASE' // RELEASE | BETA | ALPHA
 def versionMarker = versionType.charAt(0)
 
 group = 'it.italiandudes'
@@ -34,6 +34,7 @@ dependencies {
     implementation 'net.dv8tion:JDA:5.0.0-beta.17'
     implementation 'com.github.walkyst:lavaplayer-fork:1.4.3'
     implementation 'ch.qos.logback:logback-classic:1.4.12'
+    implementation 'org.xerial:sqlite-jdbc:3.43.0.0'
 }
 
 shadowJar {

@@ -1,8 +1,7 @@
-package it.italiandudes.bot6329.commands;
+package it.italiandudes.bot6329.modules.jda.commands;
 
-import it.italiandudes.bot6329.lavaplayer.PlayerManager;
-import it.italiandudes.bot6329.lavaplayer.TrackScheduler;
-import it.italiandudes.bot6329.util.UserBlacklist;
+import it.italiandudes.bot6329.modules.jda.ModuleJDA;
+import it.italiandudes.bot6329.modules.jda.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
@@ -10,14 +9,14 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-public final class LoopCommand extends ListenerAdapter {
+public class StopCommand extends ListenerAdapter {
 
     // Attributes
-    public static final String NAME = "loop";
-    public static final String DESCRIPTION = "Toggle the loop mode";
+    public static final String NAME = "stop";
+    public static final String DESCRIPTION = "Stop the playing track and make the bot leave the channel";
 
     // Command Body
-    @Override
+    @Override @SuppressWarnings("DuplicatedCode")
     public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
         if (!event.getName().equals(NAME)) return;
         Member member = event.getMember();
@@ -26,7 +25,7 @@ public final class LoopCommand extends ListenerAdapter {
             event.reply("Can't use this command as a bot!").setEphemeral(true).queue();
             return;
         }
-        if (UserBlacklist.isUserBlacklisted(member.getUser().getId())) {
+        if (ModuleJDA.getInstance().isUserBlacklisted(member.getUser().getId())) {
             event.reply("TITAN: SUCK IT").setEphemeral(true).queue();
             return;
         }
@@ -54,8 +53,9 @@ public final class LoopCommand extends ListenerAdapter {
             return;
         }
 
-        TrackScheduler scheduler = PlayerManager.getInstance().getMusicManager(guild).getScheduler();
-        scheduler.setLoopMode(!scheduler.isLoopMode());
-        event.reply("Loop Mode: " + (scheduler.isLoopMode()?"ON":"OFF")).queue();
+        event.reply("Leaving the channel!").queue();
+        guild.getAudioManager().closeAudioConnection();
+        PlayerManager.getInstance().getMusicManager(guild).getScheduler().clearQueueAndSettings();
     }
+
 }

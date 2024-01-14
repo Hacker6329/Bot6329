@@ -1,8 +1,8 @@
-package it.italiandudes.bot6329.lavaplayer;
+package it.italiandudes.bot6329.modules.jda.lavaplayer;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.playback.MutableAudioFrame;
-import it.italiandudes.bot6329.util.Defs;
+import it.italiandudes.bot6329.modules.jda.ModuleJDA;
 import net.dv8tion.jda.api.audio.AudioSendHandler;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,7 +18,7 @@ public final class AudioPlayerSendHandler implements AudioSendHandler {
     // Constructors
     public AudioPlayerSendHandler(@NotNull final AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
-        this.buffer = ByteBuffer.allocate(Defs.LavaPlayer.BUFFER_SIZE);
+        this.buffer = ByteBuffer.allocate(ModuleJDA.Defs.LAVAPLAYER_BUFFER_SIZE);
         this.frame = new MutableAudioFrame();
         this.frame.setBuffer(buffer);
     }

@@ -5,13 +5,14 @@ import it.italiandudes.bot6329.modules.ModuleState;
 import it.italiandudes.bot6329.throwables.errors.ModuleError;
 import it.italiandudes.bot6329.throwables.exceptions.ModuleException;
 import it.italiandudes.bot6329.throwables.exceptions.module.configuration.ConfigurationModuleException;
-import it.italiandudes.bot6329.util.Defs;
-import it.italiandudes.bot6329.util.JSONManager;
-import it.italiandudes.bot6329.util.Resource;
+import it.italiandudes.bot6329.utils.Defs;
+import it.italiandudes.bot6329.utils.JSONManager;
+import it.italiandudes.bot6329.utils.Resource;
 import it.italiandudes.idl.common.JarHandler;
 import it.italiandudes.idl.common.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,6 +24,7 @@ public final class ModuleConfiguration extends BaseModule {
 
     // Attributes
     private JSONObject configuration = null;
+    private boolean isTokenMissing = false;
 
     // Module Management Methods
     @Override
@@ -72,19 +74,37 @@ public final class ModuleConfiguration extends BaseModule {
         try {
             String token = configuration.getString(ConfigurationMap.Keys.TOKEN);
             if (token == null) {
-                throw new ModuleException(MODULE_NAME + " Module Load: Failed! (Reason: \"token\" into the configuration file can't be null)");
+                isTokenMissing = true;
+                throw new ModuleException(MODULE_NAME + " Module Load: Failed! (Reason: \"" + ConfigurationMap.Keys.TOKEN + "\" into the configuration file can't be null)");
             }
         } catch (JSONException e) {
+            isTokenMissing = true;
             ConfigurationMap.fixEntry(configuration, ConfigurationMap.Keys.TOKEN);
-            throw new ModuleException(MODULE_NAME + " Module Load: Failed! (Reason: \"token\" into the configuration file can't be null)");
+            try {
+                JSONManager.writeJSON(configuration, new File(Resource.Configuration.CONFIGURATION_FILENAME));
+            } catch (IOException ignored) {}
+            throw new ModuleException(MODULE_NAME + " Module Load: Failed! (Reason: \"" + ConfigurationMap.Keys.TOKEN + "\" into the configuration file can't be null)");
         }
         try {
             String databasePath = configuration.getString(ConfigurationMap.Keys.DATABASE_PATH);
             if (databasePath == null) {
-                throw new ModuleException(MODULE_NAME + " Module Load: Failed! (Reason: \"database_path\" into the configuration file can't be null)");
+                throw new ModuleException(MODULE_NAME + " Module Load: Failed! (Reason: \"" + ConfigurationMap.Keys.DATABASE_PATH + "\" into the configuration file can't be null)");
             }
         } catch (JSONException e) {
             ConfigurationMap.fixEntry(configuration, ConfigurationMap.Keys.DATABASE_PATH);
+        }
+        try {
+            JSONArray blacklist = configuration.getJSONArray(ConfigurationMap.Keys.BLACKLIST);
+            if (blacklist == null) {
+                throw new ModuleException(MODULE_NAME + " Module Load: Failed! (Reason: \"" + ConfigurationMap.Keys.BLACKLIST + "\" into the configuration file can't be null)");
+            }
+        } catch (JSONException e) {
+            ConfigurationMap.fixEntry(configuration, ConfigurationMap.Keys.BLACKLIST);
+        }
+        try {
+            JSONManager.writeJSON(configuration, new File(Resource.Configuration.CONFIGURATION_FILENAME));
+        } catch (IOException e) {
+            throw new ModuleException(MODULE_NAME + " Module Load: Failed! (Reason: Failed to write json configuration file)", e);
         }
     }
     @Nullable
@@ -92,6 +112,9 @@ public final class ModuleConfiguration extends BaseModule {
         if (getModuleState() != ModuleState.LOADED) throw new ConfigurationModuleException("The configuration module is not loaded");
         if (configuration.isNull(key)) return null;
         else return configuration.get(key);
+    }
+    public boolean isTokenMissing() {
+        return isTokenMissing;
     }
 
     // Instance

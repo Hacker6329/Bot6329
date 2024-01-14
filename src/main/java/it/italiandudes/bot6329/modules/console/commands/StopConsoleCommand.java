@@ -1,6 +1,8 @@
 package it.italiandudes.bot6329.modules.console.commands;
 
-import it.italiandudes.bot6329.Bot6329;
+import it.italiandudes.bot6329.modules.ModuleManager;
+import it.italiandudes.bot6329.throwables.exceptions.ModuleException;
+import it.italiandudes.idl.common.Logger;
 import org.jetbrains.annotations.NotNull;
 
 public final class StopConsoleCommand extends BaseConsoleCommand {
@@ -17,7 +19,12 @@ public final class StopConsoleCommand extends BaseConsoleCommand {
     // Methods
     @Override
     public int execute(@NotNull String[] arguments) {
-        Bot6329.InternalMethods.shutdown(false);
+        try {
+            ModuleManager.shutdownBot();
+        } catch (ModuleException e) {
+            Logger.log("An error has occurred during bot shutdown, emergency shutdown initiated");
+            ModuleManager.emergencyShutdownBot();
+        }
         return 0;
     }
 }

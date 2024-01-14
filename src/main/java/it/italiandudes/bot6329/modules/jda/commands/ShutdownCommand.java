@@ -1,8 +1,10 @@
-package it.italiandudes.bot6329.commands;
+package it.italiandudes.bot6329.modules.jda.commands;
 
-import it.italiandudes.bot6329.Bot6329;
-import it.italiandudes.bot6329.util.Defs;
-import it.italiandudes.bot6329.util.UserBlacklist;
+import it.italiandudes.bot6329.modules.ModuleManager;
+import it.italiandudes.bot6329.modules.jda.ModuleJDA;
+import it.italiandudes.bot6329.throwables.errors.ModuleError;
+import it.italiandudes.bot6329.throwables.exceptions.ModuleException;
+import it.italiandudes.idl.common.Logger;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -15,7 +17,7 @@ public final class ShutdownCommand extends ListenerAdapter {
     public static final String DESCRIPTION = "Shutdown the bot remotely (only the Master can run this command)";
 
     // Command Body
-    @Override
+    @Override @SuppressWarnings("DuplicatedCode")
     public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
         if (!event.getName().equals(NAME)) return;
         Member member = event.getMember();
@@ -24,18 +26,20 @@ public final class ShutdownCommand extends ListenerAdapter {
             event.reply("Can't use this command as a bot!").setEphemeral(true).queue();
             return;
         }
-        if (UserBlacklist.isUserBlacklisted(member.getUser().getId())) {
+        if (ModuleJDA.getInstance().isUserBlacklisted(member.getUser().getId())) {
             event.reply("TITAN: SUCK IT").setEphemeral(true).queue();
             return;
         }
-        if (!member.getId().equals(Defs.MASTER_ACCOUNT_ID)) {
+        if (!member.getId().equals(ModuleJDA.Defs.MASTER_ACCOUNT_ID)) {
             event.reply("Error: Only the Master can run this command.").setEphemeral(true).queue();
             return;
         }
-        if (Bot6329.InternalMethods.shutdown(true)) {
-            event.reply("Remote Shutdown Procedure Initiated!").setEphemeral(true).queue();
-        } else {
-            event.reply("The bot is already shutting down! Please stand by...").setEphemeral(true).queue();
+        Logger.log("!!!THE MASTER HAS INVOKED THE REMOTE SHUTDOWN!!!");
+        event.reply("Remote Shutdown Procedure Initiated! Please stand by...").setEphemeral(true).queue();
+        try {
+            ModuleManager.shutdownBot();
+        } catch (ModuleException | ModuleError e) {
+            ModuleManager.emergencyShutdownBot();
         }
     }
 }

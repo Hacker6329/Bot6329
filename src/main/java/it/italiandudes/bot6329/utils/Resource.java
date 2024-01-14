@@ -1,4 +1,4 @@
-package it.italiandudes.bot6329.util;
+package it.italiandudes.bot6329.utils;
 
 import it.italiandudes.bot6329.Bot6329;
 import org.jetbrains.annotations.NotNull;

@@ -1,8 +1,8 @@
-package it.italiandudes.bot6329.commands;
+package it.italiandudes.bot6329.modules.jda.commands;
 
-import it.italiandudes.bot6329.lavaplayer.PlayerManager;
-import it.italiandudes.bot6329.lavaplayer.TrackScheduler;
-import it.italiandudes.bot6329.util.UserBlacklist;
+import it.italiandudes.bot6329.modules.jda.ModuleJDA;
+import it.italiandudes.bot6329.modules.jda.lavaplayer.PlayerManager;
+import it.italiandudes.bot6329.modules.jda.lavaplayer.TrackScheduler;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
@@ -10,14 +10,14 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-public class SkipCommand extends ListenerAdapter {
+public final class LoopCommand extends ListenerAdapter {
 
     // Attributes
-    public static final String NAME = "skip";
-    public static final String DESCRIPTION = "Skip the current track and play the next one if present";
+    public static final String NAME = "loop";
+    public static final String DESCRIPTION = "Toggle the loop mode";
 
     // Command Body
-    @Override
+    @Override @SuppressWarnings("DuplicatedCode")
     public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
         if (!event.getName().equals(NAME)) return;
         Member member = event.getMember();
@@ -26,7 +26,7 @@ public class SkipCommand extends ListenerAdapter {
             event.reply("Can't use this command as a bot!").setEphemeral(true).queue();
             return;
         }
-        if (UserBlacklist.isUserBlacklisted(member.getUser().getId())) {
+        if (ModuleJDA.getInstance().isUserBlacklisted(member.getUser().getId())) {
             event.reply("TITAN: SUCK IT").setEphemeral(true).queue();
             return;
         }
@@ -55,12 +55,7 @@ public class SkipCommand extends ListenerAdapter {
         }
 
         TrackScheduler scheduler = PlayerManager.getInstance().getMusicManager(guild).getScheduler();
-        if (!scheduler.isPlayingTrack()) {
-            event.reply("I'm not playing a track!").setEphemeral(true).queue();
-            return;
-        }
-
-        scheduler.nextTrack();
-        event.reply("Track skipped!").queue();
+        scheduler.setLoopMode(!scheduler.isLoopMode());
+        event.reply("Loop Mode: " + (scheduler.isLoopMode()?"ON":"OFF")).queue();
     }
 }

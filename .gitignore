@@ -6,6 +6,7 @@ build/
 logs/
 .idea/
 configuration.json
+bot6329.sqlite3
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

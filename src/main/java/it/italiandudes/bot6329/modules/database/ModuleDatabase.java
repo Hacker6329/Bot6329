@@ -6,7 +6,7 @@ import it.italiandudes.bot6329.modules.configuration.ConfigurationMap;
 import it.italiandudes.bot6329.modules.configuration.ModuleConfiguration;
 import it.italiandudes.bot6329.throwables.errors.ModuleError;
 import it.italiandudes.bot6329.throwables.exceptions.ModuleException;
-import it.italiandudes.bot6329.util.Resource;
+import it.italiandudes.bot6329.utils.Resource;
 import it.italiandudes.idl.common.Logger;
 import org.jetbrains.annotations.NotNull;
 
@@ -57,7 +57,7 @@ public class ModuleDatabase extends BaseModule {
             throw new ModuleError(MODULE_NAME + " Module Load: Failed! (Reason: the database path provided in configuration is invalid)", e);
         } catch (SQLException e) {
             setModuleState(ModuleState.ERROR);
-            throw new ModuleError(MODULE_NAME + " Module Load: Failed! (Reason: an SQLException has been raised", e);
+            throw new ModuleError(MODULE_NAME + " Module Load: Failed! (Reason: an SQLException has been raised)", e);
         }
 
         if (!isReloading) setModuleState(ModuleState.LOADED);
@@ -69,16 +69,19 @@ public class ModuleDatabase extends BaseModule {
         if (!bypassPreliminaryChecks) moduleUnloadPreliminaryCheck(MODULE_NAME, isReloading);
         if (!isReloading) setModuleState(ModuleState.UNLOADING);
 
-        try {
-            if (!dbConnection.isClosed()) dbConnection.close();
-            dbConnection = null;
-        } catch (SQLException e) {
+        if (dbConnection != null) {
             try {
                 if (!dbConnection.isClosed()) dbConnection.close();
-            } catch (Exception ignored) {}
-            dbConnection = null;
-            setModuleState(ModuleState.ERROR);
-            throw new ModuleError(MODULE_NAME + " Module Unload: Failed! (Reason: an error has occurred during connection close)", e);
+                dbConnection = null;
+            } catch (SQLException e) {
+                try {
+                    if (!dbConnection.isClosed()) dbConnection.close();
+                } catch (Exception ignored) {
+                }
+                dbConnection = null;
+                setModuleState(ModuleState.ERROR);
+                throw new ModuleError(MODULE_NAME + " Module Unload: Failed! (Reason: an error has occurred during connection close)", e);
+            }
         }
 
         if (!isReloading) setModuleState(ModuleState.NOT_LOADED);
@@ -87,7 +90,7 @@ public class ModuleDatabase extends BaseModule {
 
     // Internal Module Methods
     private synchronized void createSQLiteConnection(@NotNull final String databaseAbsolutePath) throws SQLException {
-        String url = DB_PREFIX + databaseAbsolutePath + "?allowMultiQueries=true";
+        String url = DB_PREFIX + databaseAbsolutePath;
         dbConnection = DriverManager.getConnection(url);
         dbConnection.setAutoCommit(true);
         Statement foreignKeysStatement = dbConnection.createStatement();

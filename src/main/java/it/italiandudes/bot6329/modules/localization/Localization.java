@@ -1,6 +1,6 @@
 package it.italiandudes.bot6329.modules.localization;
 
-import it.italiandudes.bot6329.util.Resource;
+import it.italiandudes.bot6329.utils.Resource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -1,7 +1,8 @@
-package it.italiandudes.bot6329.commands;
+package it.italiandudes.bot6329.modules.jda.commands;
 
-import it.italiandudes.bot6329.lavaplayer.PlayerManager;
-import it.italiandudes.bot6329.util.UserBlacklist;
+import it.italiandudes.bot6329.modules.jda.ModuleJDA;
+import it.italiandudes.bot6329.modules.jda.lavaplayer.PlayerManager;
+import it.italiandudes.bot6329.modules.jda.lavaplayer.TrackScheduler;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
@@ -9,14 +10,14 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-public class StopCommand extends ListenerAdapter {
+public class SkipCommand extends ListenerAdapter {
 
     // Attributes
-    public static final String NAME = "stop";
-    public static final String DESCRIPTION = "Stop the playing track and make the bot leave the channel";
+    public static final String NAME = "skip";
+    public static final String DESCRIPTION = "Skip the current track and play the next one if present";
 
     // Command Body
-    @Override
+    @Override @SuppressWarnings("DuplicatedCode")
     public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
         if (!event.getName().equals(NAME)) return;
         Member member = event.getMember();
@@ -25,7 +26,7 @@ public class StopCommand extends ListenerAdapter {
             event.reply("Can't use this command as a bot!").setEphemeral(true).queue();
             return;
         }
-        if (UserBlacklist.isUserBlacklisted(member.getUser().getId())) {
+        if (ModuleJDA.getInstance().isUserBlacklisted(member.getUser().getId())) {
             event.reply("TITAN: SUCK IT").setEphemeral(true).queue();
             return;
         }
@@ -53,9 +54,13 @@ public class StopCommand extends ListenerAdapter {
             return;
         }
 
-        event.reply("Leaving the channel!").queue();
-        guild.getAudioManager().closeAudioConnection();
-        PlayerManager.getInstance().getMusicManager(guild).getScheduler().clearQueueAndSettings();
-    }
+        TrackScheduler scheduler = PlayerManager.getInstance().getMusicManager(guild).getScheduler();
+        if (!scheduler.isPlayingTrack()) {
+            event.reply("I'm not playing a track!").setEphemeral(true).queue();
+            return;
+        }
 
+        scheduler.nextTrack();
+        event.reply("Track skipped!").queue();
+    }
 }

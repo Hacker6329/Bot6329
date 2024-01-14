@@ -1,3 +1,5 @@
 {
-  "token": null
+  "token": null,
+  "database_path": "bot6329.sqlite3",
+  "blacklist": []
 }

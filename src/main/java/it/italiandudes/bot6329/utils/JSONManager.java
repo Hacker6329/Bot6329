@@ -1,4 +1,4 @@
-package it.italiandudes.bot6329.util;
+package it.italiandudes.bot6329.utils;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
