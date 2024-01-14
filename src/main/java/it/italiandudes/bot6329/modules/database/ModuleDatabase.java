@@ -11,6 +11,7 @@ import it.italiandudes.idl.common.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.Scanner;
 
@@ -102,7 +103,7 @@ public class ModuleDatabase extends BaseModule {
             dbConnection = null;
             throw new ModuleException("Can't create database structure: the database connection doesn't exists or it's closed");
         }
-        Scanner fileReader = new Scanner(Resource.getAsStream(Resource.SQL.DATABASE_SQL_FILEPATH), "UTF-8");
+        Scanner fileReader = new Scanner(Resource.getAsStream(Resource.SQL.DATABASE_SQL_FILEPATH), StandardCharsets.UTF_8);
         StringBuilder queryBuffer = new StringBuilder();
         String buffer;
 
