@@ -32,7 +32,7 @@ public final class AudioPlayerSendHandler implements AudioSendHandler {
     public boolean canProvide() {
         return audioPlayer.provide(frame);
     }
-    @Override
+    @Override @SuppressWarnings("RedundantCast")
     public ByteBuffer provide20MsAudio() {
         return (ByteBuffer) buffer.flip();
     }

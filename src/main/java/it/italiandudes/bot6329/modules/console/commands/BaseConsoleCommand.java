@@ -32,9 +32,7 @@ public abstract class BaseConsoleCommand {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof BaseConsoleCommand)) return false;
-
-        BaseConsoleCommand that = (BaseConsoleCommand) o;
+        if (!(o instanceof BaseConsoleCommand that)) return false;
 
         if (!getName().equals(that.getName())) return false;
         if (!getSynopsis().equals(that.getSynopsis())) return false;
