@@ -4,6 +4,7 @@ import it.italiandudes.bot6329.modules.BaseModule;
 import it.italiandudes.bot6329.modules.ModuleState;
 import it.italiandudes.bot6329.modules.configuration.ConfigurationMap;
 import it.italiandudes.bot6329.modules.configuration.ModuleConfiguration;
+import it.italiandudes.bot6329.modules.database.ModuleDatabase;
 import it.italiandudes.bot6329.modules.jda.commands.*;
 import it.italiandudes.bot6329.modules.jda.listeners.InactivityListener;
 import it.italiandudes.bot6329.modules.jda.listeners.MasterListener;
@@ -23,6 +24,9 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -137,6 +141,59 @@ public class ModuleJDA extends BaseModule {
     }
     public boolean isUserBlacklisted(@NotNull final String userID) {
         return userBlacklist.contains(userID);
+    }
+    public boolean isGuildSettingPresent(@NotNull final String GUID_ID, @NotNull final String KEY) throws SQLException {
+        String query = "SELECT * FROM guild_settings WHERE setting_key=? AND guild_id=?;";
+        PreparedStatement ps = ModuleDatabase.getInstance().preparedStatement(query);
+        if (ps == null) throw new SQLException("The database connection doesn't exist");
+        ps.setString(1, KEY);
+        ps.setString(2, GUID_ID);
+        ResultSet result = ps.executeQuery();
+        if (result.next()) {
+            ps.close();
+            return true;
+        } else {
+            ps.close();
+            return false;
+        }
+    }
+    public void writeGuildSetting(@NotNull final String GUILD_ID, @NotNull final String KEY, @NotNull final String VALUE) throws SQLException {
+        String query;
+        PreparedStatement ps;
+        if (isGuildSettingPresent(GUILD_ID, KEY)) { // Update
+            query = "UPDATE guild_settings SET setting_value=? WHERE setting_key=? AND guild_id=?;";
+            ps = ModuleDatabase.getInstance().preparedStatement(query);
+            if (ps == null) throw new SQLException("The database connection doesn't exist");
+            ps.setString(1, VALUE);
+            ps.setString(2, KEY);
+            ps.setString(3, GUILD_ID);
+        } else { // Insert
+            query = "INSERT OR REPLACE INTO guild_settings (guild_id, setting_key, setting_value) VALUES (?, ?, ?);";
+            ps = ModuleDatabase.getInstance().preparedStatement(query);
+            if (ps == null) throw new SQLException("The database connection doesn't exist");
+            ps.setString(1, GUILD_ID);
+            ps.setString(2, KEY);
+            ps.setString(3, VALUE);
+        }
+        ps.executeUpdate();
+        ps.close();
+    }
+    public String readGuildSetting(@NotNull final String GUILD_ID, @NotNull final String KEY) throws SQLException {
+        PreparedStatement ps;
+        String query = "SELECT setting_value FROM guild_settings WHERE setting_key=? AND guild_id=?;";
+        ps = ModuleDatabase.getInstance().preparedStatement(query);
+        if (ps == null) throw new SQLException("The database connection doesn't exist");
+        ps.setString(1, KEY);
+        ps.setString(2, GUILD_ID);
+        ResultSet result = ps.executeQuery();
+        if (result.next()) {
+            String value = result.getString("setting_value");
+            ps.close();
+            return value;
+        } else {
+            ps.close();
+            return null;
+        }
     }
 
     // Instance

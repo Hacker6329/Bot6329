@@ -4,6 +4,7 @@ import it.italiandudes.bot6329.modules.BaseModule;
 import it.italiandudes.bot6329.modules.ModuleState;
 import it.italiandudes.bot6329.modules.configuration.ConfigurationMap;
 import it.italiandudes.bot6329.modules.configuration.ModuleConfiguration;
+import it.italiandudes.bot6329.modules.database.entries.DatabaseKeyParameters;
 import it.italiandudes.bot6329.throwables.errors.ModuleError;
 import it.italiandudes.bot6329.throwables.exceptions.ModuleException;
 import it.italiandudes.bot6329.utils.Resource;

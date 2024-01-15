@@ -7,7 +7,8 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import it.italiandudes.idl.common.Logger;
+import it.italiandudes.bot6329.modules.jda.GuildLocalization;
+import it.italiandudes.bot6329.modules.localization.LocalizationKey;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.jetbrains.annotations.NotNull;
@@ -43,10 +44,8 @@ public final class PlayerManager {
 
     // Methods
     public void deleteMusicManager(@Nullable final Guild guild) {
-        Logger.log("Guild != null: " + (guild != null));
         if (guild == null) return;
         GuildMusicManager manager = musicManagers.get(guild.getIdLong());
-        Logger.log("manager != null: " + (manager != null));
         if (manager != null) {
             manager.getScheduler().clearQueueAndSettings();
             musicManagers.remove(guild.getIdLong());
@@ -60,28 +59,29 @@ public final class PlayerManager {
         });
     }
     public void loadAndPlay(@NotNull final TextChannel textChannel, @NotNull final String trackURL) {
+        String guildID = textChannel.getGuild().getId();
         final GuildMusicManager musicManager = getMusicManager(textChannel.getGuild());
         this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
                 musicManager.getScheduler().queue(track);
-                textChannel.sendMessage("Adding to queue **`" + track.getInfo().title + "`** by **`" + track.getInfo().author + "`**").queue();
+                textChannel.sendMessage(GuildLocalization.localizeString(guildID, LocalizationKey.TRACK_ADDED_TO_QUEUE, track.getInfo().title, track.getInfo().author)).queue();
             }
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
                 final List<AudioTrack> tracks = playlist.getTracks();
                 if (!tracks.isEmpty()) {
                     musicManager.getScheduler().queue(tracks.get(0));
-                    textChannel.sendMessage("Adding to queue **`" + tracks.get(0).getInfo().title + "`** by **`" + tracks.get(0).getInfo().author + "`**").queue();
+                    textChannel.sendMessage(GuildLocalization.localizeString(guildID, LocalizationKey.TRACK_ADDED_TO_QUEUE, tracks.get(0).getInfo().title, tracks.get(0).getInfo().author)).queue();
                 }
             }
             @Override
             public void noMatches() {
-                textChannel.sendMessage("There's no match for the provided link or song name").queue();
+                textChannel.sendMessage(GuildLocalization.localizeString(guildID, LocalizationKey.TRACK_NO_MATCHES)).queue();
             }
             @Override
             public void loadFailed(FriendlyException exception) {
-                textChannel.sendMessage("An error has occurred during track load").queue();
+                textChannel.sendMessage(GuildLocalization.localizeString(guildID, LocalizationKey.TRACK_LOAD_FAILED)).queue();
             }
         });
     }

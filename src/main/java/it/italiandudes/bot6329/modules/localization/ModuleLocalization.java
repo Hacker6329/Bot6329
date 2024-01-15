@@ -20,6 +20,9 @@ public final class ModuleLocalization extends BaseModule {
     // Attributes
     @NotNull private final HashMap<Localization, JSONObject> langMap = new HashMap<>();
 
+    // Default Message
+    public static final String LOCALIZATION_ERROR_MESSAGE = "An error has occurred during message localization, shutting down...";
+
     // Module Management Methods
     @Override
     protected synchronized void loadModule(final boolean isReloading) throws ModuleException, ModuleError {
@@ -79,7 +82,7 @@ public final class ModuleLocalization extends BaseModule {
     @NotNull
     public String localizeString(@NotNull final Localization localization, @NotNull final String key) throws LocalizationModuleException, LocalizationException {
         if (getModuleState() != ModuleState.LOADED) throw new LocalizationModuleException("Can't use localization: the module is not loaded");
-        if (!langMap.containsKey(localization)) throw new LocalizationMapNotLoadedException("The requested localization map is not loaded");
+        if (!langMap.containsKey(localization)) loadLocalizationMap(localization);
         try {
             return langMap.get(localization).getString(key);
         } catch (JSONException | NullPointerException e) {

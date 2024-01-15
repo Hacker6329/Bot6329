@@ -1,6 +1,8 @@
 package it.italiandudes.bot6329.modules.jda.listeners;
 
+import it.italiandudes.bot6329.modules.jda.GuildLocalization;
 import it.italiandudes.bot6329.modules.jda.ModuleJDA;
+import it.italiandudes.bot6329.modules.localization.LocalizationKey;
 import it.italiandudes.idl.common.Logger;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
@@ -28,13 +30,13 @@ public final class MasterListener extends ListenerAdapter {
                 TextChannel systemChannel = guild.getSystemChannel();
                 if (master == null) {
                     if (systemChannel != null) {
-                        systemChannel.sendMessage("Error: my Master must be in the guild. Leaving the guild...").queue(null, this::handleFailure);
+                        systemChannel.sendMessage(GuildLocalization.localizeString(guild.getId(), LocalizationKey.QUITTING_MASTER_NOT_IN_GUILD)).queue(null, this::handleFailure);
                     }
                     guild.leave().queue(null, this::handleFailure);
                 } else {
                     if (!master.hasPermission(Permission.ADMINISTRATOR)) {
                         if (systemChannel != null) {
-                            systemChannel.sendMessage("Error: my Master must be the guild owner or administrator. Leaving the guild...").queue(null, this::handleFailure);
+                            systemChannel.sendMessage(GuildLocalization.localizeString(guild.getId(), LocalizationKey.QUITTING_MASTER_NOT_ADMIN_OR_OWNER)).queue(null, this::handleFailure);
                         }
                         guild.leave().queue(null, this::handleFailure);
                     }
@@ -51,14 +53,14 @@ public final class MasterListener extends ListenerAdapter {
             TextChannel systemChannel = guild.getSystemChannel();
             if (member == null) {
                 if (systemChannel != null) {
-                    systemChannel.sendMessage("Error: my Master must be in the guild. Leaving the guild...").queue(null, this::handleFailure);
+                    systemChannel.sendMessage(GuildLocalization.localizeString(guild.getId(), LocalizationKey.QUITTING_MASTER_NOT_IN_GUILD)).queue(null, this::handleFailure);
                 }
                 guild.leave().queue(null, this::handleFailure);
                 return;
             }
             if (member.hasPermission(Permission.ADMINISTRATOR)) return;
             if (systemChannel != null) {
-                systemChannel.sendMessage("Error: my Master must be the guild owner or administrator. Leaving the guild...").queue(null, this::handleFailure);
+                systemChannel.sendMessage(GuildLocalization.localizeString(guild.getId(), LocalizationKey.QUITTING_MASTER_NOT_ADMIN_OR_OWNER)).queue(null, this::handleFailure);
             }
             guild.leave().queue(null, this::handleFailure);
         }, this::handleFailure);
@@ -71,14 +73,14 @@ public final class MasterListener extends ListenerAdapter {
             TextChannel systemChannel = event.getGuild().getSystemChannel();
             if (member == null) {
                 if (systemChannel != null) {
-                    systemChannel.sendMessage("Error: my Master must be in the guild. Leaving the guild...").queue(null, this::handleFailure);
+                    systemChannel.sendMessage(GuildLocalization.localizeString(event.getGuild().getId(), LocalizationKey.QUITTING_MASTER_NOT_IN_GUILD)).queue(null, this::handleFailure);
                 }
                 event.getGuild().leave().queue(null, this::handleFailure);
                 return;
             }
             if (member.hasPermission(Permission.ADMINISTRATOR)) return;
             if (systemChannel != null) {
-                systemChannel.sendMessage("Error: my Master isn't Administrator anymore. Leaving the guild...").queue(null, this::handleFailure);
+                systemChannel.sendMessage(GuildLocalization.localizeString(event.getGuild().getId(), LocalizationKey.QUITTING_MASTER_NOT_ADMIN_ANYMORE)).queue(null, this::handleFailure);
             }
             event.getGuild().leave().queue(null, this::handleFailure);
         }, this::handleFailure);
@@ -89,14 +91,14 @@ public final class MasterListener extends ListenerAdapter {
             TextChannel systemChannel = event.getGuild().getSystemChannel();
             if (member == null) {
                 if (systemChannel != null) {
-                    systemChannel.sendMessage("Error: my Master must be in the guild. Leaving the guild...").queue(null, this::handleFailure);
+                    systemChannel.sendMessage(GuildLocalization.localizeString(event.getGuild().getId(), LocalizationKey.QUITTING_MASTER_NOT_IN_GUILD)).queue(null, this::handleFailure);
                 }
                 event.getGuild().leave().queue(null, this::handleFailure);
                 return;
             }
             if (member.hasPermission(Permission.ADMINISTRATOR)) return;
             if (systemChannel != null) {
-                systemChannel.sendMessage("Error: my Master isn't Administrator anymore. Leaving the guild...").queue(null, this::handleFailure);
+                systemChannel.sendMessage(GuildLocalization.localizeString(event.getGuild().getId(), LocalizationKey.QUITTING_MASTER_NOT_ADMIN_ANYMORE)).queue(null, this::handleFailure);
             }
             event.getGuild().leave().queue(null, this::handleFailure);
         }, this::handleFailure);
@@ -110,7 +112,7 @@ public final class MasterListener extends ListenerAdapter {
         if (member.hasPermission(Permission.ADMINISTRATOR)) return;
         TextChannel systemChannel = event.getGuild().getSystemChannel();
         if (systemChannel != null) {
-            systemChannel.sendMessage("Error: my Master isn't Administrator anymore. Leaving the guild...").queue(null, this::handleFailure);
+            systemChannel.sendMessage(GuildLocalization.localizeString(event.getGuild().getId(), LocalizationKey.QUITTING_MASTER_NOT_ADMIN_ANYMORE)).queue(null, this::handleFailure);
         }
         event.getGuild().leave().queue(null, this::handleFailure);
     }
@@ -121,7 +123,7 @@ public final class MasterListener extends ListenerAdapter {
         if (event.getUser().getId().equals(ModuleJDA.Defs.MASTER_ACCOUNT_ID)) {
             TextChannel systemChannel = event.getGuild().getSystemChannel();
             if (systemChannel != null) {
-                systemChannel.sendMessage("Error: my Master left the guild. Leaving the guild...").queue(null, this::handleFailure);
+                systemChannel.sendMessage(GuildLocalization.localizeString(event.getGuild().getId(), LocalizationKey.QUITTING_MASTER_LEFT_THE_GUILD)).queue(null, this::handleFailure);
             }
             event.getGuild().leave().queue(null, this::handleFailure);
         }

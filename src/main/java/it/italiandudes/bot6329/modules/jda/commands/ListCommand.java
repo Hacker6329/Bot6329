@@ -1,9 +1,12 @@
 package it.italiandudes.bot6329.modules.jda.commands;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
+import it.italiandudes.bot6329.modules.jda.GuildLocalization;
 import it.italiandudes.bot6329.modules.jda.ModuleJDA;
 import it.italiandudes.bot6329.modules.jda.lavaplayer.PlayerManager;
 import it.italiandudes.bot6329.modules.jda.lavaplayer.TrackScheduler;
+import it.italiandudes.bot6329.modules.localization.Localization;
+import it.italiandudes.bot6329.modules.localization.LocalizationKey;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
@@ -23,10 +26,18 @@ public final class ListCommand extends ListenerAdapter {
     @Override @SuppressWarnings("DuplicatedCode")
     public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
         if (!event.getName().equals(NAME)) return;
+
+        Guild guild = event.getGuild();
+        if (guild == null) {
+            event.reply(Localization.FALLBACK.localizeString(LocalizationKey.MUST_BE_IN_GUILD_TO_USE_THIS_COMMAND)).setEphemeral(true).queue();
+            return;
+        }
+        String guildID = guild.getId();
+
         Member member = event.getMember();
         if (member == null) return;
         if (member.getUser().isBot()) {
-            event.reply("Can't use this command as a bot!").setEphemeral(true).queue();
+            event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.CANT_USE_COMMAND_AS_BOT)).setEphemeral(true).queue();
             return;
         }
         if (ModuleJDA.getInstance().isUserBlacklisted(member.getUser().getId())) {
@@ -34,17 +45,11 @@ public final class ListCommand extends ListenerAdapter {
             return;
         }
 
-        Guild guild = event.getGuild();
-        if (guild == null) {
-            event.reply("You need to be in a guild to use this command!").setEphemeral(true).queue();
-            return;
-        }
-
         Member self = guild.getSelfMember();
         GuildVoiceState selfVoiceState = self.getVoiceState();
 
         if (selfVoiceState == null || !selfVoiceState.inAudioChannel() || selfVoiceState.getChannel() == null) {
-            event.reply("I'm not in the audio channel!").setEphemeral(true).queue();
+            event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.NOT_IN_AUDIO_CHANNEL)).setEphemeral(true).queue();
             return;
         }
 
@@ -53,15 +58,15 @@ public final class ListCommand extends ListenerAdapter {
         AudioTrackInfo playingAudioTrackInfo = scheduler.getPlayingAudioTrackInfo();
 
         if (playingAudioTrackInfo != null) {
-            messageBuilder.append("**Currently Playing**: `").append(playingAudioTrackInfo.title).append("` by `").append(playingAudioTrackInfo.author).append("`\n");
+            messageBuilder.append(GuildLocalization.localizeString(guildID, LocalizationKey.LIST_CURRENTLY_PLAYING, playingAudioTrackInfo.title, playingAudioTrackInfo.author));
         } else {
-            messageBuilder.append("**Currently Playing**: Nothing\n");
+            messageBuilder.append(GuildLocalization.localizeString(guildID, LocalizationKey.LIST_CURRENTLY_PLAYING_NOTHING));
         }
-        messageBuilder.append("**In Queue**: ").append(scheduler.getQueueLength()).append("\n");
+        messageBuilder.append(GuildLocalization.localizeString(guildID, LocalizationKey.LIST_IN_QUEUE, scheduler.getQueueLength()));
         ArrayList<AudioTrackInfo> trackInfos = scheduler.getQueueTrackInfo();
         for (int i=0; i<trackInfos.size(); i++) {
             AudioTrackInfo trackInfo = trackInfos.get(i);
-            messageBuilder.append("**").append(i+1).append(".** `").append(trackInfo.title).append("` by `").append(trackInfo.author).append("`\n");
+            messageBuilder.append(GuildLocalization.localizeString(guildID, LocalizationKey.LIST_IN_QUEUE_PART, i+1, trackInfo.title, trackInfo.author));
         }
         event.reply(messageBuilder.toString()).setEphemeral(true).queue();
     }
