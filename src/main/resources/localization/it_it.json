@@ -28,5 +28,13 @@
   "quitting_master_not_in_guild": "Errore: Il master deve essere nel server. Abbandono il server...",
   "quitting_master_not_admin_or_owner": "Errore: Il master deve essere il proprietario del server o un amministratore. Abbandono il server...",
   "quitting_master_not_admin_anymore": "Errore: Il master non è più amministratore. Abbandono il server...",
-  "quitting_master_left_the_guild": "Errore: Il master ha abbandonato il server. Abbandono il server..."
+  "quitting_master_left_the_guild": "Errore: Il master ha abbandonato il server. Abbandono il server...",
+  "must_be_administrator_to_perform_this_command": "Errore: Devi avere permessi da amministratore per eseguire questo comando!",
+  "must_provide_locale_code": "Errore: Devi fornire un codice locale valido! Codice Locale di Default: 'en_US'",
+  "provided_locale_is_invalid": "Errore: Il codice locale fornito non è valido! Devi fornire un codice locale valido come 'en_US'",
+  "localization_updated": "Localizzazione aggiornata a **{0}**",
+  "missing_subcommand": "Errore: manca un sotto-comando!",
+  "invalid_subcommand": "Errore: sotto-comando invalido!",
+  "localization_list": "Localizzazioni Supportate:",
+  "localization_get": "La localizzazione corrente è **{0}** [**{1}**]."
 }

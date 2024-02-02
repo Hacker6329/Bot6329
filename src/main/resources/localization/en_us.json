@@ -28,5 +28,13 @@
   "quitting_master_not_in_guild": "Error: my Master must be in the guild. Quitting the guild...",
   "quitting_master_not_admin_or_owner": "Error: my Master must be the guild owner or administrator. Leaving the guild...",
   "quitting_master_not_admin_anymore": "Error: my Master isn't Administrator anymore. Quitting the guild...",
-  "quitting_master_left_the_guild": "Error: my Master left the guild. Quitting the guild..."
+  "quitting_master_left_the_guild": "Error: my Master left the guild. Quitting the guild...",
+  "must_be_administrator_to_perform_this_command": "Error: You must have admin permissions to perform this command!",
+  "must_provide_locale_code": "Error: You must provide a valid locale code! Default Locale Code: 'en_US'",
+  "provided_locale_is_invalid": "Error: The provided locale code is invalid! You must provide a valid locale code like 'en_US'",
+  "localization_updated": "Localization updated to **{0}**",
+  "missing_subcommand": "Error: Missing subcommand!",
+  "invalid_subcommand": "Error: The provided subcommand is invalid!",
+  "localization_list": "Supported Localizations:",
+  "localization_get": "The current localization is **{0}** [**{1}**]."
 }

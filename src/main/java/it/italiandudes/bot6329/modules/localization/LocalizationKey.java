@@ -32,4 +32,12 @@ public final class LocalizationKey {
     public static final String QUITTING_MASTER_NOT_ADMIN_OR_OWNER = "quitting_master_not_admin_or_owner";
     public static final String QUITTING_MASTER_NOT_ADMIN_ANYMORE = "quitting_master_not_admin_anymore";
     public static final String QUITTING_MASTER_LEFT_THE_GUILD = "quitting_master_left_the_guild";
+    public static final String MUST_BE_ADMINISTRATOR_TO_PERFORM_THIS_COMMAND = "must_be_administrator_to_perform_this_command";
+    public static final String MUST_PROVIDE_LOCALE_CODE = "must_provide_locale_code";
+    public static final String PROVIDED_LOCALE_IS_INVALID = "provided_locale_is_invalid";
+    public static final String LOCALIZATION_UPDATED = "localization_updated";
+    public static final String MISSING_SUBCOMMAND = "missing_subcommand";
+    public static final String INVALID_SUBCOMMAND = "invalid_subcommand";
+    public static final String LOCALIZATION_LIST = "localization_list";
+    public static final String LOCALIZATION_GET = "localization_get";
 }

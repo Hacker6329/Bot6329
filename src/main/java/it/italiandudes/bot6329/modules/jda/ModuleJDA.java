@@ -18,6 +18,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
@@ -113,7 +114,8 @@ public class ModuleJDA extends BaseModule {
                 new ResumeCommand(),
                 new SkipCommand(),
                 new ShutdownCommand(),
-                new ListCommand()
+                new ListCommand(),
+                new LocalizationCommand()
         );
         CommandListUpdateAction commandUpdate = jda.updateCommands();
         commandUpdate.addCommands(Commands.slash(PlayCommand.NAME, PlayCommand.DESCRIPTION).addOption(OptionType.STRING, "track", "Name of the song or it's link.", true));
@@ -124,6 +126,10 @@ public class ModuleJDA extends BaseModule {
         commandUpdate.addCommands(Commands.slash(SkipCommand.NAME, SkipCommand.DESCRIPTION));
         commandUpdate.addCommands(Commands.slash(ShutdownCommand.NAME, ShutdownCommand.DESCRIPTION));
         commandUpdate.addCommands(Commands.slash(ListCommand.NAME, ListCommand.DESCRIPTION));
+        SubcommandData localizationList = new SubcommandData(LocalizationCommand.SUBCOMMAND_LIST, "List all the available localizations.");
+        SubcommandData localizationGet = new SubcommandData(LocalizationCommand.SUBCOMMAND_GET, "Get the guild localization.");
+        SubcommandData localizationSet = new SubcommandData(LocalizationCommand.SUBCOMMAND_SET, "Set the guild localization.").addOption(OptionType.STRING, "locale", "The locale code", true);
+        commandUpdate.addCommands(Commands.slash(LocalizationCommand.NAME, LocalizationCommand.DESCRIPTION).addSubcommands(localizationList, localizationGet, localizationSet));
         commandUpdate.queue();
     }
     private void registerListeners() {
