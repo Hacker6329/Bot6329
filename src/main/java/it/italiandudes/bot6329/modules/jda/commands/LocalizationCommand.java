@@ -4,7 +4,6 @@ import it.italiandudes.bot6329.modules.jda.GuildLocalization;
 import it.italiandudes.bot6329.modules.jda.ModuleJDA;
 import it.italiandudes.bot6329.modules.localization.Localization;
 import it.italiandudes.bot6329.modules.localization.LocalizationKey;
-import it.italiandudes.idl.common.Logger;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -25,9 +24,7 @@ public class LocalizationCommand extends ListenerAdapter {
     // Command Body
     @Override @SuppressWarnings("DuplicatedCode")
     public void onSlashCommandInteraction(@NotNull final SlashCommandInteractionEvent event) {
-        Logger.log("A");
         if (!event.getName().equals(NAME)) return;
-        Logger.log("B");
 
         Guild guild = event.getGuild();
         if (guild == null) {
