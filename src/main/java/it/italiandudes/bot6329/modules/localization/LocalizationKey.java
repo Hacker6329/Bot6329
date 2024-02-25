@@ -27,6 +27,7 @@ public final class LocalizationKey {
     public static final String MASTER_ONLY = "master_only";
     public static final String SHUTDOWN_STARTED = "shutdown_started";
     public static final String TRACK_SKIPPED = "track_skipped";
+    public static final String TRACK_SKIPPED_VETO = "track_skipped_veto";
     public static final String LEAVING_VC = "leaving_vc";
     public static final String QUITTING_MASTER_NOT_IN_GUILD = "quitting_master_not_in_guild";
     public static final String QUITTING_MASTER_NOT_ADMIN_OR_OWNER = "quitting_master_not_admin_or_owner";
@@ -40,4 +41,15 @@ public final class LocalizationKey {
     public static final String INVALID_SUBCOMMAND = "invalid_subcommand";
     public static final String LOCALIZATION_LIST = "localization_list";
     public static final String LOCALIZATION_GET = "localization_get";
+    public static final String VOLUME_GET = "volume_get";
+    public static final String VOLUME_SET = "volume_set";
+    public static final String VOLUME_OUT_OF_BOUNDS = "volume_out_of_bounds";
+    public static final String MUST_PROVIDE_VOLUME = "must_provide_volume";
+    public static final String TRACK_SKIP_VOTE = "track_skip_vote";
+    public static final String TRACK_SKIP_VOTE_SUCCESS = "track_skip_vote_success";
+    public static final String TRACK_SKIP_VOTE_FAIL = "track_skip_vote_fail";
+    public static final String TRACK_SKIP_VOTE_TIMEOUT = "track_skip_vote_timeout";
+    public static final String TRACK_SKIP_VOTE_TRACK_CHANGED = "track_skip_vote_track_changed";
+    public static final String TRACK_SKIP_VOTE_VETO_SUCCESS = "track_skip_vote_veto_success";
+    public static final String TRACK_SKIP_VOTE_VETO_FAIL = "track_skip_vote_veto_fail";
 }

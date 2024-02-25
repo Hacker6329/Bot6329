@@ -77,6 +77,7 @@ public class ModuleJDA extends BaseModule {
         registerCommands();
         registerListeners();
 
+
         if (!isReloading) setModuleState(ModuleState.LOADED);
         Logger.log(MODULE_NAME + " Module Load: Successful!");
     }
@@ -115,7 +116,8 @@ public class ModuleJDA extends BaseModule {
                 new SkipCommand(),
                 new ShutdownCommand(),
                 new ListCommand(),
-                new LocalizationCommand()
+                new LocalizationCommand(),
+                new VolumeCommand()
         );
         CommandListUpdateAction commandUpdate = jda.updateCommands();
         commandUpdate.addCommands(Commands.slash(PlayCommand.NAME, PlayCommand.DESCRIPTION).addOption(OptionType.STRING, "track", "Name of the song or it's link.", true));
@@ -123,13 +125,16 @@ public class ModuleJDA extends BaseModule {
         commandUpdate.addCommands(Commands.slash(LoopCommand.NAME, LoopCommand.DESCRIPTION));
         commandUpdate.addCommands(Commands.slash(PauseCommand.NAME, PauseCommand.DESCRIPTION));
         commandUpdate.addCommands(Commands.slash(ResumeCommand.NAME, ResumeCommand.DESCRIPTION));
-        commandUpdate.addCommands(Commands.slash(SkipCommand.NAME, SkipCommand.DESCRIPTION));
+        commandUpdate.addCommands(Commands.slash(SkipCommand.NAME, SkipCommand.DESCRIPTION).addOption(OptionType.BOOLEAN, "admins_have_veto_power", "Allows admins to have veto power on the vote.", false));
         commandUpdate.addCommands(Commands.slash(ShutdownCommand.NAME, ShutdownCommand.DESCRIPTION));
         commandUpdate.addCommands(Commands.slash(ListCommand.NAME, ListCommand.DESCRIPTION));
         SubcommandData localizationList = new SubcommandData(LocalizationCommand.SUBCOMMAND_LIST, "List all the available localizations.");
         SubcommandData localizationGet = new SubcommandData(LocalizationCommand.SUBCOMMAND_GET, "Get the guild localization.");
         SubcommandData localizationSet = new SubcommandData(LocalizationCommand.SUBCOMMAND_SET, "Set the guild localization.").addOption(OptionType.STRING, "locale", "The locale code", true);
         commandUpdate.addCommands(Commands.slash(LocalizationCommand.NAME, LocalizationCommand.DESCRIPTION).addSubcommands(localizationList, localizationGet, localizationSet));
+        SubcommandData volumeGet = new SubcommandData(VolumeCommand.SUBCOMMAND_GET, "Get the bot volume for this guild.");
+        SubcommandData volumeSet = new SubcommandData(VolumeCommand.SUBCOMMAND_SET, "Set the bot volume for this guild.").addOption(OptionType.INTEGER, "volume", "The new volume value", true);
+        commandUpdate.addCommands(Commands.slash(VolumeCommand.NAME, VolumeCommand.DESCRIPTION).addSubcommands(volumeGet, volumeSet));
         commandUpdate.queue();
     }
     private void registerListeners() {
@@ -219,7 +224,8 @@ public class ModuleJDA extends BaseModule {
         // Gateway Intents
         public static final GatewayIntent[] GATEWAY_INTENTS = {
                 GatewayIntent.GUILD_MEMBERS,
-                GatewayIntent.GUILD_VOICE_STATES
+                GatewayIntent.GUILD_VOICE_STATES,
+                GatewayIntent.GUILD_MESSAGE_REACTIONS
         };
 
         // Enabled Cache Flags
@@ -239,6 +245,9 @@ public class ModuleJDA extends BaseModule {
 
         // LavaPlayer Defs
         public static final int LAVAPLAYER_BUFFER_SIZE = 1024;
+
+        // Bot Default Volume
+        public static final int DEFAULT_VOLUME = 50;
 
         // Hacker6329's Account ID
         public static final String MASTER_ACCOUNT_ID = "467835670761701376";

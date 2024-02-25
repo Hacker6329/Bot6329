@@ -6,6 +6,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
@@ -58,14 +59,29 @@ public final class TrackScheduler extends AudioEventAdapter {
         setPaused(false);
         setLoopMode(false);
     }
+    public int getVolume() {
+        return audioPlayer.getVolume();
+    }
+    public void setVolume(int volume) {
+        if (volume < 0) volume = 0;
+        if (volume > 100) volume = 100;
+        audioPlayer.setVolume(volume);
+    }
     public void clearQueue() {
         audioPlayer.stopTrack();
         queue.clear();
     }
+    @Nullable
+    public AudioTrack getPlayingAudioTrack() {
+        if (audioPlayer.getPlayingTrack() == null) return null;
+        return audioPlayer.getPlayingTrack();
+    }
+    @Nullable
     public AudioTrackInfo getPlayingAudioTrackInfo() {
         if (audioPlayer.getPlayingTrack() == null) return null;
         return audioPlayer.getPlayingTrack().getInfo();
     }
+    @NotNull
     public ArrayList<AudioTrackInfo> getQueueTrackInfo() {
         ArrayList<AudioTrackInfo> trackInfos = new ArrayList<>();
         for (AudioTrack audioTrack : queue) {

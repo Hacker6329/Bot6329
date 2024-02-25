@@ -7,13 +7,18 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import it.italiandudes.bot6329.modules.ModuleManager;
+import it.italiandudes.bot6329.modules.database.entries.DatabaseGuildSettings;
 import it.italiandudes.bot6329.modules.jda.GuildLocalization;
+import it.italiandudes.bot6329.modules.jda.ModuleJDA;
 import it.italiandudes.bot6329.modules.localization.LocalizationKey;
+import it.italiandudes.idl.common.Logger;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -55,6 +60,21 @@ public final class PlayerManager {
         return this.musicManagers.computeIfAbsent(guild.getIdLong(), (guildID) -> {
            final GuildMusicManager guildMusicManager = new GuildMusicManager(this.audioPlayerManager);
            guild.getAudioManager().setSendingHandler(guildMusicManager.getSendHandler());
+           try {
+               String volumeStr = ModuleJDA.getInstance().readGuildSetting(guild.getId(), DatabaseGuildSettings.KEY_VOLUME);
+               int volume = ModuleJDA.Defs.DEFAULT_VOLUME;
+               if (volumeStr != null) {
+                   try {
+                       volume = Integer.parseInt(volumeStr);
+                   } catch (NumberFormatException e) {
+                       ModuleJDA.getInstance().writeGuildSetting(guild.getId(), DatabaseGuildSettings.KEY_VOLUME, String.valueOf(volume));
+                   }
+               }
+               guildMusicManager.getScheduler().setVolume(volume);
+           } catch (SQLException e) {
+               Logger.log(e);
+               ModuleManager.emergencyShutdownBot();
+           }
            return guildMusicManager;
         });
     }
