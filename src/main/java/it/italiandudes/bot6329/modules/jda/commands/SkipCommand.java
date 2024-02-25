@@ -92,7 +92,7 @@ public class SkipCommand extends ListenerAdapter {
             return;
         }
 
-        long voteThreshold = humansInChannel%2==0?(humansInChannel/2)+1:((humansInChannel-1)/2)+1;
+        long voteThreshold = humansInChannel%2==0?humansInChannel/2:((humansInChannel-1)/2)+1;
 
         TextChannel channel = event.getChannel().asTextChannel();
         UnicodeEmoji upVoteEmoji = Emoji.fromUnicode("\uD83D\uDC4D");
