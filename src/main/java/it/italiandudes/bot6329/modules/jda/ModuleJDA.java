@@ -5,6 +5,7 @@ import it.italiandudes.bot6329.modules.ModuleState;
 import it.italiandudes.bot6329.modules.configuration.ConfigurationMap;
 import it.italiandudes.bot6329.modules.configuration.ModuleConfiguration;
 import it.italiandudes.bot6329.modules.database.ModuleDatabase;
+import it.italiandudes.bot6329.modules.database.entries.DatabaseGuildSettings;
 import it.italiandudes.bot6329.modules.jda.commands.*;
 import it.italiandudes.bot6329.modules.jda.listeners.InactivityListener;
 import it.italiandudes.bot6329.modules.jda.listeners.MasterListener;
@@ -150,7 +151,12 @@ public class ModuleJDA extends BaseModule {
             userBlacklist.add(blacklistedUserIDs.getString(i));
         }
     }
-    public boolean isUserBlacklisted(@NotNull final String userID) {
+    public boolean isUserBlacklisted(@NotNull final String guildID, @NotNull final String userID) {
+        try {
+            if (isGuildSettingPresent(guildID, DatabaseGuildSettings.KEY_DISABLE_GLOBAL_BLACKLIST)) return false;
+        } catch (SQLException e) {
+            Logger.log(e);
+        }
         return userBlacklist.contains(userID);
     }
     public boolean isGuildSettingPresent(@NotNull final String GUID_ID, @NotNull final String KEY) throws SQLException {
