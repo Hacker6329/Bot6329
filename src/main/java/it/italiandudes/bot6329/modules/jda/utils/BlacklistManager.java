@@ -65,7 +65,7 @@ public final class BlacklistManager {
     public static boolean removeUserFromGuildBlacklist(@NotNull final String guildID, @NotNull final String userID) throws SQLException {
         if (!GUILDS_BLACKLIST.containsKey(guildID)) GUILDS_BLACKLIST.put(guildID, new HashSet<>());
         if (!GUILDS_BLACKLIST.get(guildID).contains(userID)) return false;
-        String query = "REMOVE FROM guilds_blacklist WHERE guild_id=? AND user_id=?;";
+        String query = "DELETE FROM guilds_blacklist WHERE guild_id=? AND user_id=?;";
         PreparedStatement ps = ModuleDatabase.getInstance().preparedStatement(query);
         if (ps == null) throw new SQLException("The database connection doesn't exist");
         ps.setString(1, guildID);
