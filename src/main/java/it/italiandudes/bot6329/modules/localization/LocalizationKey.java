@@ -52,4 +52,13 @@ public final class LocalizationKey {
     public static final String TRACK_SKIP_VOTE_TRACK_CHANGED = "track_skip_vote_track_changed";
     public static final String TRACK_SKIP_VOTE_VETO_SUCCESS = "track_skip_vote_veto_success";
     public static final String TRACK_SKIP_VOTE_VETO_FAIL = "track_skip_vote_veto_fail";
+    public static final String MISSING_PARAMETER = "missing_parameter";
+    public static final String BLACKLIST_ALREADY_ENABLED = "blacklist_already_enabled";
+    public static final String BLACKLIST_ALREADY_DISABLED = "blacklist_already_disabled";
+    public static final String BLACKLIST_ALREADY_BLACKLISTED = "blacklist_already_blacklisted";
+    public static final String BLACKLIST_NOT_BLACKLISTED = "blacklist_not_blacklisted";
+    public static final String BLACKLIST_DISABLED = "blacklist_disabled";
+    public static final String BLACKLIST_ENABLED = "blacklist_enabled";
+    public static final String BLACKLIST_BLACKLISTED = "blacklist_blacklisted";
+    public static final String BLACKLIST_UNBLACKLISTED = "blacklist_unblacklisted";
 }

@@ -1,7 +1,8 @@
-package it.italiandudes.bot6329.modules.jda;
+package it.italiandudes.bot6329.modules.jda.utils;
 
 import it.italiandudes.bot6329.modules.ModuleManager;
 import it.italiandudes.bot6329.modules.database.entries.DatabaseGuildSettings;
+import it.italiandudes.bot6329.modules.jda.ModuleJDA;
 import it.italiandudes.bot6329.modules.localization.Localization;
 import it.italiandudes.idl.common.Logger;
 import org.jetbrains.annotations.NotNull;

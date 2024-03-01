@@ -1,6 +1,6 @@
 package it.italiandudes.bot6329.modules.jda.listeners;
 
-import it.italiandudes.bot6329.modules.jda.GuildLocalization;
+import it.italiandudes.bot6329.modules.jda.utils.GuildLocalization;
 import it.italiandudes.bot6329.modules.jda.ModuleJDA;
 import it.italiandudes.bot6329.modules.localization.LocalizationKey;
 import it.italiandudes.idl.common.Logger;

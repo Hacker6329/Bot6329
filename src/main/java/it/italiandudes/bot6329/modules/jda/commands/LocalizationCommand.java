@@ -1,7 +1,7 @@
 package it.italiandudes.bot6329.modules.jda.commands;
 
-import it.italiandudes.bot6329.modules.jda.GuildLocalization;
-import it.italiandudes.bot6329.modules.jda.ModuleJDA;
+import it.italiandudes.bot6329.modules.jda.utils.BlacklistManager;
+import it.italiandudes.bot6329.modules.jda.utils.GuildLocalization;
 import it.italiandudes.bot6329.modules.localization.Localization;
 import it.italiandudes.bot6329.modules.localization.LocalizationKey;
 import net.dv8tion.jda.api.Permission;
@@ -39,7 +39,7 @@ public class LocalizationCommand extends ListenerAdapter {
             event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.CANT_USE_COMMAND_AS_BOT)).setEphemeral(true).queue();
             return;
         }
-        if (ModuleJDA.getInstance().isUserBlacklisted(guildID, member.getUser().getId())) {
+        if (BlacklistManager.isUserBlacklisted(guildID, member.getUser().getId())) {
             event.reply("TITAN: SUCK IT").setEphemeral(true).queue();
             return;
         }
@@ -58,6 +58,7 @@ public class LocalizationCommand extends ListenerAdapter {
         }
     }
 
+    // Subcommands
     private static void subcommandList(@NotNull final SlashCommandInteractionEvent event, @NotNull final String guildID) {
         StringBuilder builder = new StringBuilder();
         builder.append(GuildLocalization.localizeString(guildID, LocalizationKey.LOCALIZATION_LIST)).append('\n');

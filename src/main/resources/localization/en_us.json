@@ -48,5 +48,14 @@
   "track_skip_vote_track_changed": "Track Skip Vote Canceled: the track has changed during the vote.",
   "track_skip_vote_veto_success": "Track Skip Vote ended with admin-veto by {0}, the track will be skipped!",
   "track_skip_vote_veto_fail": "Track Skip Vote ended with admin-veto by {0}, the track won't be skipped!",
-  "track_skipped_veto": "Track Skipped Immediately by {0} using veto!"
+  "track_skipped_veto": "Track Skipped Immediately by {0} using veto!",
+  "missing_parameter": "Missing command parameter: {0}.",
+  "blacklist_already_enabled": "The blacklist is already enabled!",
+  "blacklist_already_disabled": "The blacklist is already disabled!",
+  "blacklist_already_blacklisted": "The user {0} is already blacklisted!",
+  "blacklist_not_blacklisted": "The user {0} is not blacklisted!",
+  "blacklist_disabled": "The blacklist has been disabled!",
+  "blacklist_enabled": "The blacklist has been enabled!",
+  "blacklist_blacklisted": "User {0} added to the blacklist!",
+  "blacklist_unblacklisted": "User {0} removed from the blacklist!"
 }

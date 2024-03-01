@@ -5,11 +5,11 @@ import it.italiandudes.bot6329.modules.ModuleState;
 import it.italiandudes.bot6329.modules.configuration.ConfigurationMap;
 import it.italiandudes.bot6329.modules.configuration.ModuleConfiguration;
 import it.italiandudes.bot6329.modules.database.ModuleDatabase;
-import it.italiandudes.bot6329.modules.database.entries.DatabaseGuildSettings;
 import it.italiandudes.bot6329.modules.jda.commands.*;
 import it.italiandudes.bot6329.modules.jda.listeners.InactivityListener;
 import it.italiandudes.bot6329.modules.jda.listeners.MasterListener;
 import it.italiandudes.bot6329.modules.jda.listeners.VoiceChannelListener;
+import it.italiandudes.bot6329.modules.jda.utils.BlacklistManager;
 import it.italiandudes.bot6329.throwables.errors.ModuleError;
 import it.italiandudes.bot6329.throwables.exceptions.ModuleException;
 import it.italiandudes.bot6329.throwables.exceptions.module.configuration.ConfigurationModuleException;
@@ -24,20 +24,17 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ModuleJDA extends BaseModule {
 
     // Attributes
     private JDA jda = null;
-    private ArrayList<String> userBlacklist = null;
 
     // Module Management Methods
     @Override
@@ -57,7 +54,12 @@ public class ModuleJDA extends BaseModule {
             throw new ModuleError(MODULE_NAME + " Module Load: Failed! (Reason: the token was not provided in configuration)", cme);
         }
 
-        loadBlacklist();
+        try {
+            BlacklistManager.initBlacklist();
+        } catch (SQLException e) {
+            setModuleState(ModuleState.ERROR);
+            throw new ModuleError(MODULE_NAME + " Module Load: Failed! (Reason: an SQL error has occurred during blacklist service init)", e);
+        }
 
         try {
             JDABuilder jdaBuilder = JDABuilder.create(token, Arrays.asList(Defs.GATEWAY_INTENTS));
@@ -98,7 +100,6 @@ public class ModuleJDA extends BaseModule {
                 jda.shutdownNow();
             }
             jda = null;
-            userBlacklist = null;
         }
 
         if (!isReloading) setModuleState(ModuleState.NOT_LOADED);
@@ -118,7 +119,8 @@ public class ModuleJDA extends BaseModule {
                 new ShutdownCommand(),
                 new ListCommand(),
                 new LocalizationCommand(),
-                new VolumeCommand()
+                new VolumeCommand(),
+                new BlacklistCommand()
         );
         CommandListUpdateAction commandUpdate = jda.updateCommands();
         commandUpdate.addCommands(Commands.slash(PlayCommand.NAME, PlayCommand.DESCRIPTION).addOption(OptionType.STRING, "track", "Name of the song or it's link.", true));
@@ -136,28 +138,17 @@ public class ModuleJDA extends BaseModule {
         SubcommandData volumeGet = new SubcommandData(VolumeCommand.SUBCOMMAND_GET, "Get the bot volume for this guild.");
         SubcommandData volumeSet = new SubcommandData(VolumeCommand.SUBCOMMAND_SET, "Set the bot volume for this guild.").addOption(OptionType.INTEGER, "volume", "The new volume value", true);
         commandUpdate.addCommands(Commands.slash(VolumeCommand.NAME, VolumeCommand.DESCRIPTION).addSubcommands(volumeGet, volumeSet));
+        SubcommandData blacklistEnable = new SubcommandData(BlacklistCommand.SUBCOMMAND_ENABLE, "Enable the blacklist for this guild.");
+        SubcommandData blacklistDisable = new SubcommandData(BlacklistCommand.SUBCOMMAND_DISABLE, "Disable the blacklist for this guild.");
+        SubcommandData blacklistAdd = new SubcommandData(BlacklistCommand.SUBCOMMAND_ADD, "Add a user into the guild blacklist.").addOption(OptionType.USER, "user", "The user to add into the blacklist", true);
+        SubcommandData blacklistRemove = new SubcommandData(BlacklistCommand.SUBCOMMAND_REMOVE, "Remove a user from the guild blacklist.").addOption(OptionType.USER, "user", "The user to remove from the blacklist", true);
+        commandUpdate.addCommands(Commands.slash(BlacklistCommand.NAME, BlacklistCommand.DESCRIPTION).addSubcommands(blacklistEnable, blacklistDisable, blacklistAdd, blacklistRemove));
         commandUpdate.queue();
     }
     private void registerListeners() {
         InactivityListener.registerListener(jda);
         MasterListener.registerListener(jda);
         VoiceChannelListener.registerListener(jda);
-    }
-    private void loadBlacklist() throws ConfigurationModuleException {
-        JSONArray blacklistedUserIDs = (JSONArray) ModuleConfiguration.getInstance().getConfigValue(ConfigurationMap.Keys.BLACKLIST);
-        if (blacklistedUserIDs == null) throw new ConfigurationModuleException("Blacklist entry is not present in configuration map");
-        userBlacklist = new ArrayList<>();
-        for (int i=0; i < blacklistedUserIDs.length(); i++) {
-            userBlacklist.add(blacklistedUserIDs.getString(i));
-        }
-    }
-    public boolean isUserBlacklisted(@NotNull final String guildID, @NotNull final String userID) {
-        try {
-            if (isGuildSettingPresent(guildID, DatabaseGuildSettings.KEY_DISABLE_GLOBAL_BLACKLIST)) return false;
-        } catch (SQLException e) {
-            Logger.log(e);
-        }
-        return userBlacklist.contains(userID);
     }
     public boolean isGuildSettingPresent(@NotNull final String GUID_ID, @NotNull final String KEY) throws SQLException {
         String query = "SELECT * FROM guild_settings WHERE setting_key=? AND guild_id=?;";

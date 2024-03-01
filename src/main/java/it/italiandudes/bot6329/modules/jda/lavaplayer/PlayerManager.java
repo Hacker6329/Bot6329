@@ -9,7 +9,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import it.italiandudes.bot6329.modules.ModuleManager;
 import it.italiandudes.bot6329.modules.database.entries.DatabaseGuildSettings;
-import it.italiandudes.bot6329.modules.jda.GuildLocalization;
+import it.italiandudes.bot6329.modules.jda.utils.GuildLocalization;
 import it.italiandudes.bot6329.modules.jda.ModuleJDA;
 import it.italiandudes.bot6329.modules.localization.LocalizationKey;
 import it.italiandudes.idl.common.Logger;

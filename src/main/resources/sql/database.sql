@@ -12,3 +12,9 @@ CREATE TABLE IF NOT EXISTS guild_settings (
     setting_value TEXT,
     PRIMARY KEY(guild_id, setting_key)
 );
+
+CREATE TABLE IF NOT EXISTS guilds_blacklist (
+    guild_id VARCHAR(32) NOT NULL,
+    user_id VARCHAR(32) NOT NULL,
+    PRIMARY KEY(guild_id, user_id)
+);

@@ -1,7 +1,7 @@
 package it.italiandudes.bot6329.modules.jda.commands;
 
-import it.italiandudes.bot6329.modules.jda.GuildLocalization;
-import it.italiandudes.bot6329.modules.jda.ModuleJDA;
+import it.italiandudes.bot6329.modules.jda.utils.BlacklistManager;
+import it.italiandudes.bot6329.modules.jda.utils.GuildLocalization;
 import it.italiandudes.bot6329.modules.jda.lavaplayer.PlayerManager;
 import it.italiandudes.bot6329.modules.jda.lavaplayer.TrackScheduler;
 import it.italiandudes.bot6329.modules.localization.Localization;
@@ -36,7 +36,7 @@ public final class ResumeCommand extends ListenerAdapter {
             event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.CANT_USE_COMMAND_AS_BOT)).setEphemeral(true).queue();
             return;
         }
-        if (ModuleJDA.getInstance().isUserBlacklisted(guildID, member.getUser().getId())) {
+        if (BlacklistManager.isUserBlacklisted(guildID, member.getUser().getId())) {
             event.reply("TITAN: SUCK IT").setEphemeral(true).queue();
             return;
         }

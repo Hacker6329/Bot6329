@@ -48,5 +48,14 @@
   "track_skip_vote_track_changed": "Proposta di salto della traccia attualmente in riproduzione cancellata: la traccia è cambiata.",
   "track_skip_vote_veto_success": "Proposta di salto della traccia attualmente in riproduzione giunta al termine tramite veto da parte di {0}, la traccia verrà saltata!",
   "track_skip_vote_veto_fail": "Proposta di salto della traccia attualmente in riproduzione giunta al termine tramite veto da parte di {0}, la traccia non verrà saltata!",
-  "track_skipped_veto": "Traccia attualmente in riproduzione saltata tramite veto da {0}!"
+  "track_skipped_veto": "Traccia attualmente in riproduzione saltata tramite veto da {0}!",
+  "missing_parameter": "Manca il parametro: {0}.",
+  "blacklist_already_enabled": "La blacklist è già attiva!",
+  "blacklist_already_disabled": "La blacklist è già disattiva!",
+  "blacklist_already_blacklisted": "L'utente {0} è già in blacklist!",
+  "blacklist_not_blacklisted": "L'utente {0} non è in blacklist!",
+  "blacklist_disabled": "La blacklist è stata disattivata!",
+  "blacklist_enabled": "La blacklist è stata attivata!",
+  "blacklist_blacklisted": "Utente {0} aggiunto alla blacklist!",
+  "blacklist_unblacklisted": "Utente {0} rimosso dalla blacklist!"
 }

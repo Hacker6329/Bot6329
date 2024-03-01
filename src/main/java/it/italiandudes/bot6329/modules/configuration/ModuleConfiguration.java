@@ -12,7 +12,6 @@ import it.italiandudes.idl.common.JarHandler;
 import it.italiandudes.idl.common.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -92,14 +91,6 @@ public final class ModuleConfiguration extends BaseModule {
             }
         } catch (JSONException e) {
             ConfigurationMap.fixEntry(configuration, ConfigurationMap.Keys.DATABASE_PATH);
-        }
-        try {
-            JSONArray blacklist = configuration.getJSONArray(ConfigurationMap.Keys.BLACKLIST);
-            if (blacklist == null) {
-                throw new ModuleException(MODULE_NAME + " Module Load: Failed! (Reason: \"" + ConfigurationMap.Keys.BLACKLIST + "\" into the configuration file can't be null)");
-            }
-        } catch (JSONException e) {
-            ConfigurationMap.fixEntry(configuration, ConfigurationMap.Keys.BLACKLIST);
         }
         try {
             JSONManager.writeJSON(configuration, new File(Resource.Configuration.CONFIGURATION_FILENAME));

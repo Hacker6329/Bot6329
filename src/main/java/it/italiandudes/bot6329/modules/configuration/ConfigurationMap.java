@@ -1,7 +1,6 @@
 package it.italiandudes.bot6329.modules.configuration;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -13,7 +12,6 @@ public final class ConfigurationMap {
     static {
         DEFAULT_CONFIGURATION.put(Keys.TOKEN, null);
         DEFAULT_CONFIGURATION.put(Keys.DATABASE_PATH, "bot6329.sqlite3");
-        DEFAULT_CONFIGURATION.put(Keys.BLACKLIST, new JSONArray());
     }
 
     public static void fixEntry(@NotNull final JSONObject CONFIGURATION, @NotNull final String KEY) {
@@ -29,6 +27,5 @@ public final class ConfigurationMap {
     public static final class Keys {
         public static final String TOKEN = "token";
         public static final String DATABASE_PATH = "database_path";
-        public static final String BLACKLIST = "blacklist";
     }
 }
