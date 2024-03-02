@@ -6,6 +6,7 @@ import it.italiandudes.bot6329.modules.jda.lavaplayer.PlayerManager;
 import it.italiandudes.bot6329.modules.jda.lavaplayer.TrackScheduler;
 import it.italiandudes.bot6329.modules.localization.Localization;
 import it.italiandudes.bot6329.modules.localization.LocalizationKey;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
@@ -37,7 +38,7 @@ public final class LoopCommand extends ListenerAdapter {
             event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.CANT_USE_COMMAND_AS_BOT)).setEphemeral(true).queue();
             return;
         }
-        if (BlacklistManager.isUserBlacklisted(guildID, member.getUser().getId())) {
+        if (!member.hasPermission(Permission.ADMINISTRATOR) && BlacklistManager.isUserBlacklisted(guildID, member.getUser().getId())) {
             event.reply("TITAN: SUCK IT").setEphemeral(true).queue();
             return;
         }

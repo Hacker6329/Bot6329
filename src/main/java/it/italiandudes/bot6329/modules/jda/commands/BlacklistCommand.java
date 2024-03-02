@@ -45,10 +45,6 @@ public class BlacklistCommand extends ListenerAdapter {
             event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.CANT_USE_COMMAND_AS_BOT)).setEphemeral(true).queue();
             return;
         }
-        if (BlacklistManager.isUserBlacklisted(guildID, member.getUser().getId())) {
-            event.reply("TITAN: SUCK IT").setEphemeral(true).queue();
-            return;
-        }
         if (!member.hasPermission(Permission.ADMINISTRATOR)) {
             event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.MUST_BE_ADMINISTRATOR_TO_PERFORM_THIS_COMMAND)).setEphemeral(true).queue();
             return;
@@ -75,7 +71,7 @@ public class BlacklistCommand extends ListenerAdapter {
             if (BlacklistManager.enableGuildBlacklist(guildID)) {
                 event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.BLACKLIST_ENABLED)).queue();
             } else {
-                event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.BLACKLIST_ALREADY_ENABLED)).queue();
+                event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.BLACKLIST_ALREADY_ENABLED)).setEphemeral(true).queue();
             }
         } catch (SQLException e) {
             Logger.log(e);
@@ -87,7 +83,7 @@ public class BlacklistCommand extends ListenerAdapter {
             if (BlacklistManager.disableGuildBlacklist(guildID)) {
                 event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.BLACKLIST_DISABLED)).queue();
             } else {
-                event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.BLACKLIST_ALREADY_DISABLED)).queue();
+                event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.BLACKLIST_ALREADY_DISABLED)).setEphemeral(true).queue();
             }
         } catch (SQLException e) {
             Logger.log(e);
@@ -101,11 +97,14 @@ public class BlacklistCommand extends ListenerAdapter {
             return;
         }
         User user = userMapping.getAsUser();
+        if (user.equals(event.getUser())) {
+            event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.BLACKLIST_CANT_BLACKLIST_YOURSELF)).setEphemeral(true).queue();
+        }
         try {
             if (BlacklistManager.addUserToGuildBlacklist(guildID, user.getId())) {
                 event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.BLACKLIST_BLACKLISTED, user.getAsMention())).queue();
             } else {
-                event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.BLACKLIST_ALREADY_BLACKLISTED, user.getAsMention())).queue();
+                event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.BLACKLIST_ALREADY_BLACKLISTED, user.getAsMention())).setEphemeral(true).queue();
             }
         } catch (SQLException e) {
             Logger.log(e);
@@ -123,7 +122,7 @@ public class BlacklistCommand extends ListenerAdapter {
             if (BlacklistManager.removeUserFromGuildBlacklist(guildID, user.getId())) {
                 event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.BLACKLIST_UNBLACKLISTED, user.getAsMention())).queue();
             } else {
-                event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.BLACKLIST_NOT_BLACKLISTED, user.getAsMention())).queue();
+                event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.BLACKLIST_NOT_BLACKLISTED, user.getAsMention())).setEphemeral(true).queue();
             }
         } catch (SQLException e) {
             Logger.log(e);

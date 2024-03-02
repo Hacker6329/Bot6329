@@ -61,4 +61,5 @@ public final class LocalizationKey {
     public static final String BLACKLIST_ENABLED = "blacklist_enabled";
     public static final String BLACKLIST_BLACKLISTED = "blacklist_blacklisted";
     public static final String BLACKLIST_UNBLACKLISTED = "blacklist_unblacklisted";
+    public static final String BLACKLIST_CANT_BLACKLIST_YOURSELF = "blacklist_cant_blacklist_yourself";
 }

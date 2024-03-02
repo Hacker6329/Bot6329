@@ -57,5 +57,6 @@
   "blacklist_disabled": "La blacklist è stata disattivata!",
   "blacklist_enabled": "La blacklist è stata attivata!",
   "blacklist_blacklisted": "Utente {0} aggiunto alla blacklist!",
-  "blacklist_unblacklisted": "Utente {0} rimosso dalla blacklist!"
+  "blacklist_unblacklisted": "Utente {0} rimosso dalla blacklist!",
+  "blacklist_cant_blacklist_yourself": "Non puoi auto-aggiungerti alla blacklist!"
 }

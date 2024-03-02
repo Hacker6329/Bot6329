@@ -4,7 +4,7 @@ plugins {
 }
 
 // Versioning
-def versionNumber = '1.4.2'
+def versionNumber = '1.4.3'
 def versionType = 'RELEASE' // RELEASE | BETA | ALPHA
 def versionMarker = versionType.charAt(0)
 

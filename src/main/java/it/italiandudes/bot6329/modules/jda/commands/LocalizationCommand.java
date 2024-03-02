@@ -39,7 +39,7 @@ public class LocalizationCommand extends ListenerAdapter {
             event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.CANT_USE_COMMAND_AS_BOT)).setEphemeral(true).queue();
             return;
         }
-        if (BlacklistManager.isUserBlacklisted(guildID, member.getUser().getId())) {
+        if (!member.hasPermission(Permission.ADMINISTRATOR) && BlacklistManager.isUserBlacklisted(guildID, member.getUser().getId())) {
             event.reply("TITAN: SUCK IT").setEphemeral(true).queue();
             return;
         }
