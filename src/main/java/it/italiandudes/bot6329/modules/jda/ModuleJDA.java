@@ -6,6 +6,7 @@ import it.italiandudes.bot6329.modules.configuration.ConfigurationMap;
 import it.italiandudes.bot6329.modules.configuration.ModuleConfiguration;
 import it.italiandudes.bot6329.modules.database.ModuleDatabase;
 import it.italiandudes.bot6329.modules.jda.commands.*;
+import it.italiandudes.bot6329.modules.jda.listeners.GuildListener;
 import it.italiandudes.bot6329.modules.jda.listeners.InactivityListener;
 import it.italiandudes.bot6329.modules.jda.listeners.MasterListener;
 import it.italiandudes.bot6329.modules.jda.listeners.VoiceChannelListener;
@@ -62,7 +63,7 @@ public class ModuleJDA extends BaseModule {
             throw new ModuleError(MODULE_NAME + " Module Load: Failed! (Reason: an SQL error has occurred during blacklist service init)", e);
         }
         try {
-            GreetingsManager.initWelcomeManager();
+            GreetingsManager.initGreetingsManager();
         } catch (SQLException e) {
             setModuleState(ModuleState.ERROR);
             throw new ModuleError(MODULE_NAME + " Module Load: Failed! (Reason: an SQL error has occurred during greetings service init)", e);
@@ -76,7 +77,6 @@ public class ModuleJDA extends BaseModule {
         } catch (InvalidTokenException invalidTokenException) {
             jda = null;
             setModuleState(ModuleState.ERROR);
-            Logger.log(token);
             throw new ModuleError(MODULE_NAME + " Module Load: Failed! (Reason: the token is invalid!)", invalidTokenException);
         } catch (InterruptedException e) {
             jda = null;
@@ -141,23 +141,31 @@ public class ModuleJDA extends BaseModule {
         commandUpdate.addCommands(Commands.slash(ListCommand.NAME, ListCommand.DESCRIPTION));
         SubcommandData localizationList = new SubcommandData(LocalizationCommand.SUBCOMMAND_LIST, "List all the available localizations.");
         SubcommandData localizationGet = new SubcommandData(LocalizationCommand.SUBCOMMAND_GET, "Get the guild localization.");
-        SubcommandData localizationSet = new SubcommandData(LocalizationCommand.SUBCOMMAND_SET, "Set the guild localization.").addOption(OptionType.STRING, "locale", "The locale code", true);
+        SubcommandData localizationSet = new SubcommandData(LocalizationCommand.SUBCOMMAND_SET, "Set the guild localization.").addOption(OptionType.STRING, "locale", "The locale code.", true);
         commandUpdate.addCommands(Commands.slash(LocalizationCommand.NAME, LocalizationCommand.DESCRIPTION).addSubcommands(localizationList, localizationGet, localizationSet));
         SubcommandData volumeGet = new SubcommandData(VolumeCommand.SUBCOMMAND_GET, "Get the bot volume for this guild.");
-        SubcommandData volumeSet = new SubcommandData(VolumeCommand.SUBCOMMAND_SET, "Set the bot volume for this guild.").addOption(OptionType.INTEGER, "volume", "The new volume value", true);
+        SubcommandData volumeSet = new SubcommandData(VolumeCommand.SUBCOMMAND_SET, "Set the bot volume for this guild.").addOption(OptionType.INTEGER, "volume", "The new volume value.", true);
         commandUpdate.addCommands(Commands.slash(VolumeCommand.NAME, VolumeCommand.DESCRIPTION).addSubcommands(volumeGet, volumeSet));
         SubcommandData blacklistEnable = new SubcommandData(BlacklistCommand.SUBCOMMAND_ENABLE, "Enable the blacklist for this guild.");
         SubcommandData blacklistDisable = new SubcommandData(BlacklistCommand.SUBCOMMAND_DISABLE, "Disable the blacklist for this guild.");
-        SubcommandData blacklistAdd = new SubcommandData(BlacklistCommand.SUBCOMMAND_ADD, "Add a user into the guild blacklist.").addOption(OptionType.USER, "user", "The user to add into the blacklist", true);
-        SubcommandData blacklistRemove = new SubcommandData(BlacklistCommand.SUBCOMMAND_REMOVE, "Remove a user from the guild blacklist.").addOption(OptionType.USER, "user", "The user to remove from the blacklist", true);
+        SubcommandData blacklistAdd = new SubcommandData(BlacklistCommand.SUBCOMMAND_ADD, "Add a user into the guild blacklist.").addOption(OptionType.USER, "user", "The user to add into the blacklist.", true);
+        SubcommandData blacklistRemove = new SubcommandData(BlacklistCommand.SUBCOMMAND_REMOVE, "Remove a user from the guild blacklist.").addOption(OptionType.USER, "user", "The user to remove from the blacklist.", true);
         commandUpdate.addCommands(Commands.slash(BlacklistCommand.NAME, BlacklistCommand.DESCRIPTION).addSubcommands(blacklistEnable, blacklistDisable, blacklistAdd, blacklistRemove));
-        // TODO: greetingsCommand commandUpdate
+        SubcommandData greetingsEnable = new SubcommandData("enable", "Enable the greetings system for this guild.");
+        SubcommandData greetingsDisable = new SubcommandData("disable", "Disable the greetings system for this guild.");
+        SubcommandData greetingsSetChannel = new SubcommandData("set_channel", "Set a new text channel for greetings in this guild..").addOption(OptionType.CHANNEL, "channel", "The new greetings channel", true);
+        SubcommandData greetingsGetChannel = new SubcommandData("get_channel", "Get the current greetings text channel of this guild.");
+        SubcommandData greetingsGetMessage = new SubcommandData("get_message", "Get the current greetings message of this guild.");
+        SubcommandData greetingsSetMessage = new SubcommandData("set_message", "Set a new greetings message for this guild.").addOption(OptionType.STRING, "message", "The new greetings message.", true);
+        SubcommandData greetingsGetMessageConstants = new SubcommandData("get_message_constants", "Get all the greetings message constants.");
+        commandUpdate.addCommands(Commands.slash(GreetingsCommand.NAME, GreetingsCommand.DESCRIPTION).addSubcommands(greetingsEnable, greetingsDisable, greetingsSetChannel, greetingsGetChannel, greetingsGetMessage, greetingsSetMessage, greetingsGetMessageConstants));
         commandUpdate.queue();
     }
     private void registerListeners() {
         InactivityListener.registerListener(jda);
         MasterListener.registerListener(jda);
         VoiceChannelListener.registerListener(jda);
+        GuildListener.registerListener(jda);
     }
     public boolean isGuildSettingPresent(@NotNull final String GUID_ID, @NotNull final String KEY) throws SQLException {
         String query = "SELECT * FROM guild_settings WHERE setting_key=? AND guild_id=?;";

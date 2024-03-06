@@ -63,4 +63,15 @@ public final class LocalizationKey {
     public static final String BLACKLIST_UNBLACKLISTED = "blacklist_unblacklisted";
     public static final String BLACKLIST_CANT_BLACKLIST_YOURSELF = "blacklist_cant_blacklist_yourself";
     public static final String GREETINGS_DEFAULT_MESSAGE = "greetings_default_message";
+    public static final String GREETINGS_CONSTANTS = "greetings_constants";
+    public static final String GREETINGS_ALREADY_ENABLED = "greetings_already_enabled";
+    public static final String GREETINGS_NO_TEXT_CHANNEL_AVAILABLE = "greetings_no_text_channel_available";
+    public static final String GREETINGS_ALREADY_DISABLED = "greetings_already_disabled";
+    public static final String GREETINGS_ENABLED = "greetings_enabled";
+    public static final String GREETINGS_DISABLED = "greetings_disabled";
+    public static final String GREETINGS_NO_TEXT_CHANNEL = "greetings_no_text_channel";
+    public static final String GREETINGS_SHOW_TEXT_CHANNEL = "greetings_show_text_channel";
+    public static final String GREETINGS_TEXT_CHANNEL_CHANGED = "greetings_text_channel_changed";
+    public static final String GREETINGS_MESSAGE_CHANGED = "greetings_message_changed";
+    public static final String GREETINGS_SHOW_MESSAGE = "greetings_show_message";
 }
