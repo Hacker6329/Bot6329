@@ -10,6 +10,7 @@ import it.italiandudes.bot6329.modules.jda.listeners.InactivityListener;
 import it.italiandudes.bot6329.modules.jda.listeners.MasterListener;
 import it.italiandudes.bot6329.modules.jda.listeners.VoiceChannelListener;
 import it.italiandudes.bot6329.modules.jda.utils.BlacklistManager;
+import it.italiandudes.bot6329.modules.jda.utils.GreetingsManager;
 import it.italiandudes.bot6329.throwables.errors.ModuleError;
 import it.italiandudes.bot6329.throwables.exceptions.ModuleException;
 import it.italiandudes.bot6329.throwables.exceptions.module.configuration.ConfigurationModuleException;
@@ -59,6 +60,12 @@ public class ModuleJDA extends BaseModule {
         } catch (SQLException e) {
             setModuleState(ModuleState.ERROR);
             throw new ModuleError(MODULE_NAME + " Module Load: Failed! (Reason: an SQL error has occurred during blacklist service init)", e);
+        }
+        try {
+            GreetingsManager.initWelcomeManager();
+        } catch (SQLException e) {
+            setModuleState(ModuleState.ERROR);
+            throw new ModuleError(MODULE_NAME + " Module Load: Failed! (Reason: an SQL error has occurred during greetings service init)", e);
         }
 
         try {
@@ -120,7 +127,8 @@ public class ModuleJDA extends BaseModule {
                 new ListCommand(),
                 new LocalizationCommand(),
                 new VolumeCommand(),
-                new BlacklistCommand()
+                new BlacklistCommand(),
+                new GreetingsCommand()
         );
         CommandListUpdateAction commandUpdate = jda.updateCommands();
         commandUpdate.addCommands(Commands.slash(PlayCommand.NAME, PlayCommand.DESCRIPTION).addOption(OptionType.STRING, "track", "Name of the song or it's link.", true));
@@ -143,6 +151,7 @@ public class ModuleJDA extends BaseModule {
         SubcommandData blacklistAdd = new SubcommandData(BlacklistCommand.SUBCOMMAND_ADD, "Add a user into the guild blacklist.").addOption(OptionType.USER, "user", "The user to add into the blacklist", true);
         SubcommandData blacklistRemove = new SubcommandData(BlacklistCommand.SUBCOMMAND_REMOVE, "Remove a user from the guild blacklist.").addOption(OptionType.USER, "user", "The user to remove from the blacklist", true);
         commandUpdate.addCommands(Commands.slash(BlacklistCommand.NAME, BlacklistCommand.DESCRIPTION).addSubcommands(blacklistEnable, blacklistDisable, blacklistAdd, blacklistRemove));
+        // TODO: greetingsCommand commandUpdate
         commandUpdate.queue();
     }
     private void registerListeners() {
