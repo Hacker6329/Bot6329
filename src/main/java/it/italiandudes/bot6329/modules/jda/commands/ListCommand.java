@@ -1,6 +1,7 @@
 package it.italiandudes.bot6329.modules.jda.commands;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
+import it.italiandudes.bot6329.modules.jda.ModuleJDA;
 import it.italiandudes.bot6329.modules.jda.lavaplayer.PlayerManager;
 import it.italiandudes.bot6329.modules.jda.lavaplayer.TrackScheduler;
 import it.italiandudes.bot6329.modules.jda.utils.BlacklistManager;
@@ -67,7 +68,11 @@ public final class ListCommand extends ListenerAdapter {
         ArrayList<AudioTrackInfo> trackInfos = scheduler.getQueueTrackInfo();
         for (int i=0; i<trackInfos.size(); i++) {
             AudioTrackInfo trackInfo = trackInfos.get(i);
-            messageBuilder.append(GuildLocalization.localizeString(guildID, LocalizationKey.LIST_IN_QUEUE_PART, i+1, trackInfo.title, trackInfo.author));
+            String trackDescriptor = GuildLocalization.localizeString(guildID, LocalizationKey.LIST_IN_QUEUE_PART, i+1, trackInfo.title, trackInfo.author);
+            if (messageBuilder.length() + trackDescriptor.length() >= ModuleJDA.Defs.MAX_MESSAGE_LENGTH) {
+                break;
+            }
+            messageBuilder.append(trackDescriptor);
         }
         event.reply(messageBuilder.toString()).setEphemeral(true).queue();
     }

@@ -136,7 +136,7 @@ public class ModuleJDA extends BaseModule {
         commandUpdate.addCommands(Commands.slash(LoopCommand.NAME, LoopCommand.DESCRIPTION));
         commandUpdate.addCommands(Commands.slash(PauseCommand.NAME, PauseCommand.DESCRIPTION));
         commandUpdate.addCommands(Commands.slash(ResumeCommand.NAME, ResumeCommand.DESCRIPTION));
-        commandUpdate.addCommands(Commands.slash(SkipCommand.NAME, SkipCommand.DESCRIPTION).addOption(OptionType.BOOLEAN, "admins_have_veto_power", "Allows admins to have veto power on the vote.", false));
+        commandUpdate.addCommands(Commands.slash(SkipCommand.NAME, SkipCommand.DESCRIPTION).addOption(OptionType.BOOLEAN, "admins_have_veto_power", "Allows admins to have veto power on the vote.", false).addOption(OptionType.INTEGER, "amount", "Amount of tracks to skip", false));
         commandUpdate.addCommands(Commands.slash(ShutdownCommand.NAME, ShutdownCommand.DESCRIPTION));
         commandUpdate.addCommands(Commands.slash(ListCommand.NAME, ListCommand.DESCRIPTION));
         SubcommandData localizationList = new SubcommandData(LocalizationCommand.SUBCOMMAND_LIST, "List all the available localizations.");
@@ -259,6 +259,9 @@ public class ModuleJDA extends BaseModule {
 
         // LavaPlayer Defs
         public static final int LAVAPLAYER_BUFFER_SIZE = 1024;
+
+        // Max Message Length
+        public static final int MAX_MESSAGE_LENGTH = 2000;
 
         // Bot Default Volume
         public static final int DEFAULT_VOLUME = 50;

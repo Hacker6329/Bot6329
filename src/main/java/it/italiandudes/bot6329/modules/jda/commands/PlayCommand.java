@@ -14,9 +14,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.NotNull;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 public class PlayCommand extends ListenerAdapter {
 
     // Attributes
@@ -57,7 +54,7 @@ public class PlayCommand extends ListenerAdapter {
             return;
         }
         String track = trackOption.getAsString();
-        if (!isURL(track)) {
+        if (!PlayerManager.isURL(track)) {
             track = "ytsearch:" + track + " audio";
         }
 
@@ -77,15 +74,5 @@ public class PlayCommand extends ListenerAdapter {
 
         PlayerManager playerManager = PlayerManager.getInstance();
         playerManager.loadAndPlay(event.getChannel().asTextChannel(), track);
-    }
-
-    // Methods
-    private boolean isURL(@NotNull final String URL) {
-        try {
-            new URI(URL);
-            return true;
-        } catch (URISyntaxException e) {
-            return false;
-        }
     }
 }

@@ -1,6 +1,7 @@
 package it.italiandudes.bot6329.modules.jda.commands;
 
 import it.italiandudes.bot6329.modules.ModuleManager;
+import it.italiandudes.bot6329.modules.jda.ModuleJDA;
 import it.italiandudes.bot6329.modules.jda.utils.GreetingsManager;
 import it.italiandudes.bot6329.modules.jda.utils.GuildLocalization;
 import it.italiandudes.bot6329.modules.localization.Localization;
@@ -120,6 +121,10 @@ public final class GreetingsCommand extends ListenerAdapter {
             return;
         }
         String message = messageMapping.getAsString();
+        if (message.length() > ModuleJDA.Defs.MAX_MESSAGE_LENGTH) {
+            event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.GREETINGS_EXCEED_MAX_LENGTH, message.length(), ModuleJDA.Defs.MAX_MESSAGE_LENGTH)).setEphemeral(true).queue();
+            return;
+        }
         try {
             GreetingsManager.setGuildGreetingsMessage(guildID, message);
             event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.GREETINGS_MESSAGE_CHANGED, MarkdownSanitizer.escape(message), message)).queue();

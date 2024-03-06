@@ -43,7 +43,7 @@
   "volume_set": "The bot volume for this guild has been updated to **`{0}`**.",
   "volume_out_of_bounds": "Error: The volume must be a number between 0 and 100 inclusive.",
   "must_provide_volume": "Error: You must provide a volume number between 0 and 100 inclusive.",
-  "track_skip_vote": "A Skip Vote has been created for the playing track.\nTrack: **`{0}`** by **`{1}`**.\nMinimum Votes Required: **`{2}`**.\nTime Before Expire: **`30 Seconds`**.\nAdmins Have Veto: {3}.",
+  "track_skip_vote": "A Skip Vote has been created for the playing track.\nTrack: **`{0}`** by **`{1}`**.\nMinimum Votes Required: **`{2}`**.\nTime Before Expire: **`30 Seconds`**.\nAdmins Have Veto: {3}.\nTracks amount that will be skipped: {4}.",
   "track_skip_vote_success": "Track Skip Vote finished with **`{0}`** up votes against **`{1}`** down votes: the track will be skipped!",
   "track_skip_vote_fail": "Track Skip Vote finished with **`{0}`** down votes against **`{1}`** up votes: the track won''t be skipped!",
   "track_skip_vote_timeout": "Track Skip Vote Canceled: the time has run out!",
@@ -72,5 +72,6 @@
   "greetings_show_text_channel": "The current text channel for greetings is {0}.",
   "greetings_text_channel_changed": "Text channel for greetings changed to {0}.",
   "greetings_message_changed": "Greetings message changed to:\n{0}\nFormatted version:\n{1}",
-  "greetings_show_message": "The current greetings message is:\n{0}\nFormatted version:\n{1}"
+  "greetings_show_message": "The current greetings message is:\n{0}\nFormatted version:\n{1}",
+  "greetings_exceed_max_length": "The new greetings message exceed the Discord''s maximum message length. Length: {0}/{1} characters."
 }

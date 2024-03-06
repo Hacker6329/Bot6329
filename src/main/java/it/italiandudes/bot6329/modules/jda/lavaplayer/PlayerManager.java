@@ -18,6 +18,8 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -78,6 +80,14 @@ public final class PlayerManager {
            return guildMusicManager;
         });
     }
+    public static boolean isURL(@NotNull final String URL) {
+        try {
+            new URI(URL);
+            return true;
+        } catch (URISyntaxException e) {
+            return false;
+        }
+    }
     public void loadAndPlay(@NotNull final TextChannel textChannel, @NotNull final String trackURL) {
         String guildID = textChannel.getGuild().getId();
         final GuildMusicManager musicManager = getMusicManager(textChannel.getGuild());
@@ -90,8 +100,10 @@ public final class PlayerManager {
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
                 final List<AudioTrack> tracks = playlist.getTracks();
-                if (!tracks.isEmpty()) {
-                    if (tracks.size() > 1) {
+                if (tracks.isEmpty()) {
+                    textChannel.sendMessage(GuildLocalization.localizeString(guildID, LocalizationKey.EMPTY_PLAYLIST)).queue();
+                } else if (isURL(trackURL)) {
+                    if (trackURL.contains("youtube") && trackURL.contains("list")) {
                         for (AudioTrack track : tracks) {
                             musicManager.getScheduler().queue(track);
                         }
@@ -100,7 +112,7 @@ public final class PlayerManager {
                         trackLoaded(tracks.get(0));
                     }
                 } else {
-                    textChannel.sendMessage(GuildLocalization.localizeString(guildID, LocalizationKey.EMPTY_PLAYLIST)).queue();
+                    trackLoaded(tracks.get(0));
                 }
             }
             @Override

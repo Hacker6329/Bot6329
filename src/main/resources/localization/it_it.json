@@ -43,7 +43,7 @@
   "volume_set": "Il volume del bot per questo server è stato aggiornato a **`{0}`**.",
   "volume_out_of_bounds": "Errore: Il volume deve essere un valore intero compreso tra 0 e 100 estremi inclusi.",
   "must_provide_volume": "Error: Devi fornire un valore per il volume che sia un numero compreso tra 0 e 100 estremi inclusi.",
-  "track_skip_vote": "È stata fatta una proposta di salto della traccia attualmente in riproduzione.\nTraccia: **`{0}`** di **`{1}`**.\nSoglia Minima Voti: **`{2}`**.\nDurata Proposta: **`30 Secondi`**.\nGli admin hanno diritto di veto: {3}.",
+  "track_skip_vote": "È stata fatta una proposta di salto della traccia attualmente in riproduzione.\nTraccia: **`{0}`** di **`{1}`**.\nSoglia Minima Voti: **`{2}`**.\nDurata Proposta: **`30 Secondi`**.\nGli admin hanno diritto di veto: {3}.\nNumero di Tracce che verranno saltate: {4}.",
   "track_skip_vote_success": "Proposta di salto della traccia attualmente in riproduzione giunta al termine con **`{0}`** SI contro **`{1}`** NO: la traccia verrà saltata!",
   "track_skip_vote_fail": "Proposta di salto della traccia attualmente in riproduzione giunta al termine con **`{0}`** NO contro **`{1}`** SI: la traccia non verrà saltata!",
   "track_skip_vote_timeout": "Proposta di salto della traccia attualmente in riproduzione cancellata: fuori tempo massimo.",
@@ -72,5 +72,6 @@
   "greetings_show_text_channel": "Il canale testuale corrente per l''invio dei messaggi di benvenuto è {0}.",
   "greetings_text_channel_changed": "Canale testuale per l''invio dei messaggi di benvenuto aggiornato a {0}.",
   "greetings_message_changed": "Messaggio di benvenuto del server aggiornato a:\n{0}\nVersione formattata:\n{1}",
-  "greetings_show_message": "L''attuale messaggio di benvenuto del server è:\n{0}\nVersione formattata:\n{1}"
+  "greetings_show_message": "L''attuale messaggio di benvenuto del server è:\n{0}\nVersione formattata:\n{1}",
+  "greetings_exceed_max_length": "Il nuovo messaggio di benvenuto eccede la lunghezza massima dei messaggi prevista da Discord. Lunghezza: {0}/{1} caratteri."
 }

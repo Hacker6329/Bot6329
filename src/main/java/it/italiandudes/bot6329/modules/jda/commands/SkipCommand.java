@@ -79,15 +79,22 @@ public class SkipCommand extends ListenerAdapter {
         OptionMapping vetoOption = event.getOption("admins_have_veto_power");
         boolean adminHasVetoPower = vetoOption != null && vetoOption.getAsBoolean();
 
+        OptionMapping skipAmount = event.getOption("amount");
+        int trackToSkip;
+        if (skipAmount != null && skipAmount.getAsInt() > 1) trackToSkip = skipAmount.getAsInt();
+        else {
+            trackToSkip = 1;
+        }
+
         long humansInChannel = selfVoiceState.getChannel().getMembers().stream().filter(m -> !m.getUser().isBot()).count();
         if (humansInChannel < 2) {
-            scheduler.nextTrack();
+            scheduler.nextTrack(trackToSkip);
             event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.TRACK_SKIPPED)).queue();
             return;
         }
 
         if (member.hasPermission(Permission.ADMINISTRATOR) && adminHasVetoPower) {
-            scheduler.nextTrack();
+            scheduler.nextTrack(trackToSkip);
             event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.TRACK_SKIPPED_VETO, member.getAsMention())).queue();
             return;
         }
@@ -98,7 +105,7 @@ public class SkipCommand extends ListenerAdapter {
         UnicodeEmoji upVoteEmoji = Emoji.fromUnicode("\uD83D\uDC4D");
         UnicodeEmoji downVoteEmoji = Emoji.fromUnicode("\uD83D\uDC4E");
         UnicodeEmoji vetoPowerEmoji = adminHasVetoPower?Emoji.fromUnicode("\u2705"):Emoji.fromUnicode("\u274C");
-        event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.TRACK_SKIP_VOTE, track.getInfo().title, track.getInfo().author, String.valueOf(voteThreshold), vetoPowerEmoji.getFormatted())).queue(e -> e.retrieveOriginal().queue(message -> {
+        event.reply(GuildLocalization.localizeString(guildID, LocalizationKey.TRACK_SKIP_VOTE, track.getInfo().title, track.getInfo().author, String.valueOf(voteThreshold), vetoPowerEmoji.getFormatted(), String.valueOf(trackToSkip))).queue(e -> e.retrieveOriginal().queue(message -> {
             message.addReaction(upVoteEmoji).queue();
             message.addReaction(downVoteEmoji).queue();
 
@@ -136,7 +143,7 @@ public class SkipCommand extends ListenerAdapter {
                 return upvotes >= voteThreshold || downvotes >= voteThreshold;
             }, (successEvent) -> {
                 if (adminHasVetoPower && adminVetoSuccess.get()) {
-                    scheduler.nextTrack();
+                    scheduler.nextTrack(trackToSkip);
                     channel.sendMessage(GuildLocalization.localizeString(guildID, LocalizationKey.TRACK_SKIP_VOTE_VETO_SUCCESS, vetoAdminName.get())).queue();
                 } else if (adminHasVetoPower && adminVetoFail.get()) {
                     channel.sendMessage(GuildLocalization.localizeString(guildID, LocalizationKey.TRACK_SKIP_VOTE_VETO_FAIL, vetoAdminName.get())).queue();
@@ -151,7 +158,7 @@ public class SkipCommand extends ListenerAdapter {
                         int upvotes = upvotesReaction != null ? upvotesReaction.getCount()-1 : 0;
                         int downvotes = downvotesReaction != null ? downvotesReaction.getCount()-1 : 0;
                         if (upvotes > downvotes) {
-                            scheduler.nextTrack();
+                            scheduler.nextTrack(trackToSkip);
                             channel.sendMessage(GuildLocalization.localizeString(guildID, LocalizationKey.TRACK_SKIP_VOTE_SUCCESS, upvotes, downvotes)).queue();
                         } else {
                             channel.sendMessage(GuildLocalization.localizeString(guildID, LocalizationKey.TRACK_SKIP_VOTE_FAIL, downvotes, upvotes)).queue();

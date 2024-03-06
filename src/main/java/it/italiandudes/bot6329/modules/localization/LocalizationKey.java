@@ -76,4 +76,5 @@ public final class LocalizationKey {
     public static final String GREETINGS_TEXT_CHANNEL_CHANGED = "greetings_text_channel_changed";
     public static final String GREETINGS_MESSAGE_CHANGED = "greetings_message_changed";
     public static final String GREETINGS_SHOW_MESSAGE = "greetings_show_message";
+    public static final String GREETINGS_EXCEED_MAX_LENGTH = "greetings_exceed_max_length";
 }
