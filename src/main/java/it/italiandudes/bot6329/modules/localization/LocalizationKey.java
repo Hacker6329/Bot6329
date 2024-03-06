@@ -3,6 +3,8 @@ package it.italiandudes.bot6329.modules.localization;
 public final class LocalizationKey {
 
     public static final String TRACK_ADDED_TO_QUEUE = "track_added_to_queue";
+    public static final String PLAYLIST_ADDED_TO_QUEUE = "playlist_added_to_queue";
+    public static final String EMPTY_PLAYLIST = "empty_playlist";
     public static final String TRACK_NO_MATCHES = "track_no_matches";
     public static final String TRACK_LOAD_FAILED = "track_load_failed";
     public static final String CANT_USE_COMMAND_AS_BOT = "cant_use_command_as_bot";

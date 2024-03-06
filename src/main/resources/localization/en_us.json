@@ -1,5 +1,7 @@
 {
   "track_added_to_queue": "Adding to queue **`{0}`** by **`{1}`**",
+  "playlist_added_to_queue": "Adding **`{0}`** tracks to the queue",
+  "empty_playlist": "The provided playlist is empty!",
   "track_no_matches": "There''s no match for the provided link or song name",
   "track_load_failed": "An error has occurred during track load",
   "cant_use_command_as_bot": "Can''t use this command as a bot!",

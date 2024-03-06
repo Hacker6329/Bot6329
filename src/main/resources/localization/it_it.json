@@ -1,5 +1,7 @@
 {
   "track_added_to_queue": "Aggiungendo alla coda **`{0}`** di **`{1}`**",
+  "playlist_added_to_queue": "Aggiunte **`{0}`** traccie alla coda",
+  "empty_playlist": "La playlist fornita è vuota!",
   "track_no_matches": "Non è stata trovata alcuna canzone con questo link o nome",
   "track_load_failed": "Si è verificato un errore durante il caricamento della traccia",
   "cant_use_command_as_bot": "Non puoi usare questo comando se sei un bot!",
