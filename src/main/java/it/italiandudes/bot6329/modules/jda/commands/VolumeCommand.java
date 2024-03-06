@@ -2,10 +2,10 @@ package it.italiandudes.bot6329.modules.jda.commands;
 
 import it.italiandudes.bot6329.modules.ModuleManager;
 import it.italiandudes.bot6329.modules.database.entries.DatabaseGuildSettings;
-import it.italiandudes.bot6329.modules.jda.utils.BlacklistManager;
-import it.italiandudes.bot6329.modules.jda.utils.GuildLocalization;
 import it.italiandudes.bot6329.modules.jda.ModuleJDA;
 import it.italiandudes.bot6329.modules.jda.lavaplayer.PlayerManager;
+import it.italiandudes.bot6329.modules.jda.utils.BlacklistManager;
+import it.italiandudes.bot6329.modules.jda.utils.GuildLocalization;
 import it.italiandudes.bot6329.modules.localization.Localization;
 import it.italiandudes.bot6329.modules.localization.LocalizationKey;
 import it.italiandudes.idl.common.Logger;

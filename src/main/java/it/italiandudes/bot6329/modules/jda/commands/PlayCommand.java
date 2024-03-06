@@ -1,8 +1,8 @@
 package it.italiandudes.bot6329.modules.jda.commands;
 
+import it.italiandudes.bot6329.modules.jda.lavaplayer.PlayerManager;
 import it.italiandudes.bot6329.modules.jda.utils.BlacklistManager;
 import it.italiandudes.bot6329.modules.jda.utils.GuildLocalization;
-import it.italiandudes.bot6329.modules.jda.lavaplayer.PlayerManager;
 import it.italiandudes.bot6329.modules.localization.Localization;
 import it.italiandudes.bot6329.modules.localization.LocalizationKey;
 import net.dv8tion.jda.api.Permission;
