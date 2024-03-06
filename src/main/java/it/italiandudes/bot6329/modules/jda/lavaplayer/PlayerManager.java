@@ -91,10 +91,14 @@ public final class PlayerManager {
             public void playlistLoaded(AudioPlaylist playlist) {
                 final List<AudioTrack> tracks = playlist.getTracks();
                 if (!tracks.isEmpty()) {
-                    for (AudioTrack track : tracks) {
-                        musicManager.getScheduler().queue(track);
+                    if (tracks.size() > 1) {
+                        for (AudioTrack track : tracks) {
+                            musicManager.getScheduler().queue(track);
+                        }
+                        textChannel.sendMessage(GuildLocalization.localizeString(guildID, LocalizationKey.PLAYLIST_ADDED_TO_QUEUE, tracks.size())).queue();
+                    } else {
+                        trackLoaded(tracks.get(0));
                     }
-                    textChannel.sendMessage(GuildLocalization.localizeString(guildID, LocalizationKey.PLAYLIST_ADDED_TO_QUEUE, tracks.size())).queue();
                 } else {
                     textChannel.sendMessage(GuildLocalization.localizeString(guildID, LocalizationKey.EMPTY_PLAYLIST)).queue();
                 }
