@@ -4,7 +4,7 @@ plugins {
 }
 
 // Versioning
-def versionNumber = '1.4.6.1' // MAJOR.MINOR.PATCH.DEV
+def versionNumber = '1.4.6.2' // MAJOR.MINOR.PATCH.DEV
 def versionType = 'DEV' // RELEASE | BETA | ALPHA | DEV
 def versionMarker = versionType.charAt(0)
 
@@ -37,7 +37,7 @@ dependencies {
     implementation 'net.dv8tion:JDA:5.0.0-beta.20'
     implementation files('lib/lavaplayer.jar')
     implementation 'pw.chew:jda-chewtils:2.0-SNAPSHOT'
-    implementation 'ch.qos.logback:logback-classic:1.4.12'
+    implementation 'ch.qos.logback:logback-classic:1.5.6'
     implementation 'org.xerial:sqlite-jdbc:3.43.0.0'
 }
 
