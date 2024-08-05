@@ -7,6 +7,8 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import dev.lavalink.youtube.YoutubeAudioSourceManager;
+import dev.lavalink.youtube.clients.*;
 import it.italiandudes.bot6329.modules.ModuleManager;
 import it.italiandudes.bot6329.modules.database.entries.DatabaseGuildSettings;
 import it.italiandudes.bot6329.modules.jda.ModuleJDA;
@@ -45,7 +47,11 @@ public final class PlayerManager {
     private PlayerManager() {
         this.musicManagers = new HashMap<>();
         this.audioPlayerManager = new DefaultAudioPlayerManager();
-        AudioSourceManagers.registerRemoteSources(audioPlayerManager);
+        // Removes the old unsupported YoutubeAudioSourceManager
+        // Adds the new YoutubeAudioSourceManager
+        audioPlayerManager.registerSourceManager(new YoutubeAudioSourceManager(true, new MusicWithThumbnail(), new WebWithThumbnail(), new AndroidTestsuiteWithThumbnail()));
+        //noinspection deprecation
+        AudioSourceManagers.registerRemoteSources(audioPlayerManager, com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager.class);
         AudioSourceManagers.registerLocalSource(audioPlayerManager);
     }
 
