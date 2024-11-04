@@ -49,7 +49,7 @@ public final class PlayerManager {
         this.audioPlayerManager = new DefaultAudioPlayerManager();
         // Removes the old unsupported YoutubeAudioSourceManager
         // Adds the new YoutubeAudioSourceManager
-        audioPlayerManager.registerSourceManager(new YoutubeAudioSourceManager(true, new MusicWithThumbnail(), new WebWithThumbnail(), new AndroidTestsuiteWithThumbnail()));
+        audioPlayerManager.registerSourceManager(new YoutubeAudioSourceManager(true, new Music(), new WebEmbedded(), new AndroidMusic()));
         //noinspection deprecation
         AudioSourceManagers.registerRemoteSources(audioPlayerManager, com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager.class);
         AudioSourceManagers.registerLocalSource(audioPlayerManager);

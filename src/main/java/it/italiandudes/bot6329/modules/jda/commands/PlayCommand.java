@@ -55,7 +55,7 @@ public class PlayCommand extends ListenerAdapter {
         }
         String track = trackOption.getAsString();
         if (!PlayerManager.isURL(track)) {
-            track = "ytsearch:" + track + " audio";
+            track = "ytmsearch:" + track + " audio";
         }
 
         Member self = guild.getSelfMember();

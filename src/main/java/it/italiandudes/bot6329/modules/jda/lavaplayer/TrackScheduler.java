@@ -96,7 +96,7 @@ public final class TrackScheduler extends AudioEventAdapter {
         this.audioPlayer.startTrack(this.queue.poll(), false);
     }
     public void nextTrack(int amount) {
-        for (int i=0; i < amount; i++) {
+        for (int i=0; i < amount-1; i++) {
             this.queue.poll();
         }
         nextTrack();

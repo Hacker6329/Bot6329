@@ -4,7 +4,7 @@ plugins {
 }
 
 // Versioning
-def versionNumber = '1.4.7' // MAJOR.MINOR.PATCH.DEV
+def versionNumber = '1.4.8' // MAJOR.MINOR.PATCH.DEV
 def versionType = 'RELEASE' // RELEASE | BETA | ALPHA | DEV
 def versionMarker = versionType.charAt(0)
 
@@ -34,13 +34,13 @@ dependencies {
     implementation 'it.italiandudes:idl:1.0.5'
     implementation 'org.json:json:20231013'
     implementation 'club.minnced:java-discord-rpc:2.0.1'
-    implementation 'net.dv8tion:JDA:5.0.1'
+    implementation 'net.dv8tion:JDA:5.1.2'
     implementation 'pw.chew:jda-chewtils:2.0-SNAPSHOT'
-    implementation 'ch.qos.logback:logback-classic:1.4.12'
+    implementation 'ch.qos.logback:logback-classic:1.5.6'
     implementation 'org.xerial:sqlite-jdbc:3.46.0.0'
     implementation 'dev.arbjerg:lavaplayer:2.2.1'
     implementation 'com.grack:nanojson:1.9'
-    implementation files('lib/youtube-common-1.5.1.jar', 'lib/youtube-v2-1.5.1.jar')
+    implementation files('lib/youtube-common-1.8.3.jar', 'lib/youtube-v2-1.8.3.jar')
 }
 
 shadowJar {
