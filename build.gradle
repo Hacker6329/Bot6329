@@ -4,7 +4,7 @@ plugins {
 }
 
 // Versioning
-def versionNumber = '1.4.8' // MAJOR.MINOR.PATCH.DEV
+def versionNumber = '1.4.9' // MAJOR.MINOR.PATCH.DEV
 def versionType = 'RELEASE' // RELEASE | BETA | ALPHA | DEV
 def versionMarker = versionType.charAt(0)
 
@@ -38,9 +38,9 @@ dependencies {
     implementation 'pw.chew:jda-chewtils:2.0-SNAPSHOT'
     implementation 'ch.qos.logback:logback-classic:1.5.6'
     implementation 'org.xerial:sqlite-jdbc:3.46.0.0'
-    implementation 'dev.arbjerg:lavaplayer:2.2.1'
+    implementation 'dev.arbjerg:lavaplayer:2.2.3'
     implementation 'com.grack:nanojson:1.9'
-    implementation files('lib/youtube-common-1.8.3.jar', 'lib/youtube-v2-1.8.3.jar')
+    implementation files('lib/youtube-common-1.11.5.jar', 'lib/youtube-v2-1.11.5.jar')
 }
 
 shadowJar {
