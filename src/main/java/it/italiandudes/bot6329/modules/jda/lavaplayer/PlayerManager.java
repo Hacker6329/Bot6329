@@ -47,9 +47,22 @@ public final class PlayerManager {
     private PlayerManager() {
         this.musicManagers = new HashMap<>();
         this.audioPlayerManager = new DefaultAudioPlayerManager();
-        // Removes the old unsupported YoutubeAudioSourceManager
-        // Adds the new YoutubeAudioSourceManager
-        audioPlayerManager.registerSourceManager(new YoutubeAudioSourceManager(true, new Music(), new WebEmbedded(), new AndroidMusic()));
+
+        /*
+         *  !!Always keep music, it's the only client that resolves "ytmsearch:"!!
+         *  !!Music is used not for playing but just to resolve internally "ytmsearch:" into a link, must always be the first client!!
+         *  !!You need to add other client(s) after Music to have music play!!
+         *  Test list of the client dated 29/11/2025 with youtube-source 1.16.0:
+         *    music: unknown file format (don't matter, must be used anyway to resolve "ytmsearch:")
+         *    web, mweb, webembedded: dev.lavalink.youtube.cipher.ScriptExtractionException: Must find sig function from script: /s/player/89e685a2/player_ias.vflset/it_IT/base.js
+         *    android: not success status code: 403
+         *    android_music: This video requires login.
+         *    android_vr: IT WORKS!!!!
+         *    tv: unknown file format
+         *    tvhtml5embedded: Please sign in
+        * */
+        audioPlayerManager.registerSourceManager(new YoutubeAudioSourceManager(true, new Music(), new AndroidVr()));
+
         //noinspection deprecation
         AudioSourceManagers.registerRemoteSources(audioPlayerManager, com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager.class);
         AudioSourceManagers.registerLocalSource(audioPlayerManager);
