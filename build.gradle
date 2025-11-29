@@ -29,18 +29,18 @@ repositories {
 
 dependencies {
     compileOnly 'org.jetbrains:annotations:26.0.1'
-    implementation 'commons-io:commons-io:2.18.0'
-    implementation 'commons-codec:commons-codec:1.17.1'
+    implementation 'commons-io:commons-io:2.21.0'
+    implementation 'commons-codec:commons-codec:1.20.0'
     implementation 'it.italiandudes:idl:1.0.9'
-    implementation 'org.json:json:20240303'
+    implementation 'org.json:json:20250517'
     implementation 'club.minnced:java-discord-rpc:2.0.1'
-    implementation 'net.dv8tion:JDA:5.1.2'
+    implementation 'net.dv8tion:JDA:6.1.2'
     implementation 'pw.chew:jda-chewtils:2.0-SNAPSHOT'
-    implementation 'ch.qos.logback:logback-classic:1.5.13'
-    implementation 'org.xerial:sqlite-jdbc:3.47.1.0'
+    implementation 'ch.qos.logback:logback-classic:1.5.21'
+    implementation 'org.xerial:sqlite-jdbc:3.51.0.0'
     implementation 'dev.arbjerg:lavaplayer:2.2.4'
-    implementation 'com.grack:nanojson:1.9'
-    implementation files('lib/youtube-common-1.13.4.jar', 'lib/youtube-v2-1.13.4.jar')
+    implementation 'com.grack:nanojson:1.10'
+    implementation files('lib/youtube-common-1.16.0.jar', 'lib/youtube-v2-1.16.0.jar')
 }
 
 shadowJar {
