@@ -16,7 +16,7 @@ public final class Bot6329 {
     // Main Method
     public static void main(String[] args) {
 
-        // Initializing the logger (even if JDA has a Logger, i prefer mine)
+        // Initializing the logger (even if JDA has a Logger, I prefer mine)
         try {
             Logger.init();
         } catch (IOException e) {

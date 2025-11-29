@@ -40,6 +40,7 @@ public abstract class BaseModule {
             Logger.log("NOTE: THIS IS JUST A MESSAGE, THE ERROR WON'T PROPAGATE\n" + StringHandler.getStackTrace(e), new InfoFlags(e instanceof Exception, e instanceof Error, false, true));
         }
     }
+    @SuppressWarnings("unused")
     public final synchronized void reloadModule() throws ModuleException, ModuleError {
         Logger.log(MODULE_NAME + " Module Reload: Started!");
         moduleReloadPreliminaryCheck(MODULE_NAME);

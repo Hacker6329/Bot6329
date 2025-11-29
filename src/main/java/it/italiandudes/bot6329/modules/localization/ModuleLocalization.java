@@ -74,6 +74,7 @@ public final class ModuleLocalization extends BaseModule {
 
         Logger.log("Localization Map \"" + localization + "\" Load: Successful!");
     }
+    @SuppressWarnings("unused")
     public synchronized void unloadLocalizationMap(@NotNull final Localization localization) throws LocalizationModuleException {
         Logger.log("Localization Map\"" + localization + "\" Unload: Started!");
         if (getModuleState() != ModuleState.LOADED) throw new LocalizationModuleException("Localization Map \"" + localization + "\" Unload: Canceled! (Reason: the localization module is not loaded)");

@@ -45,7 +45,7 @@ public enum Localization {
         }
         return null;
     }
-    @Nullable
+    @Nullable @SuppressWarnings("unused")
     public static Localization getLocalizationByExtendedLang(@NotNull final String EXTENDED_LANG) {
         for (Localization l : Localization.values()) {
             if (l.EXTENDED_LANG.equalsIgnoreCase(EXTENDED_LANG)) return l;
