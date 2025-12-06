@@ -22,7 +22,7 @@ public final class Bot6329 {
     }
 
     // Main Method
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         // Initializing the logger (even if JDA has a Logger, I prefer mine)
         try {
@@ -38,9 +38,11 @@ public final class Bot6329 {
             Logger.log("--help (or -h)     Show this help message.");
             Logger.log("--systemd          Prevent loading of ModuleConsole for bot use with systemd or any environment without stdin.");
             Logger.close();
+            Thread.sleep(1000);
             System.exit(1);
         } else if (Arrays.stream(args).anyMatch(Predicate.isEqual("--systemd"))) {
             isSystemd = true;
+            Logger.log("Starting the Bot6329 in systemd mode...");
         }
 
         // Configure the shutdown hook

@@ -4,7 +4,7 @@ plugins {
 }
 
 // Versioning
-def versionNumber = '1.5' // MAJOR.MINOR.PATCH.DEV
+def versionNumber = '1.5.1' // MAJOR.MINOR.PATCH.DEV
 def versionType = 'RELEASE' // RELEASE | BETA | ALPHA | DEV
 def versionMarker = versionType.charAt(0)
 
@@ -31,7 +31,7 @@ dependencies {
     compileOnly 'org.jetbrains:annotations:26.0.1'
     implementation 'commons-io:commons-io:2.21.0'
     implementation 'commons-codec:commons-codec:1.20.0'
-    implementation 'it.italiandudes:idl:1.0.9'
+    implementation 'it.italiandudes:idl:1.2.2'
     implementation 'org.json:json:20250517'
     implementation 'club.minnced:java-discord-rpc:2.0.1'
     implementation 'net.dv8tion:JDA:6.1.2'
