@@ -1,5 +1,6 @@
 package it.italiandudes.bot6329.modules;
 
+import it.italiandudes.bot6329.Bot6329;
 import it.italiandudes.bot6329.modules.configuration.ModuleConfiguration;
 import it.italiandudes.bot6329.modules.console.ModuleConsole;
 import it.italiandudes.bot6329.modules.database.ModuleDatabase;
@@ -17,7 +18,7 @@ public final class ModuleManager {
         ModuleLocalization.getInstance().loadModule();
         ModuleDatabase.getInstance().loadModule();
         ModuleJDA.getInstance().loadModule();
-        ModuleConsole.getInstance().loadModule();
+        if (!Bot6329.isSystemd()) ModuleConsole.getInstance().loadModule();
     }
 
     // Shutdown the Bot
